@@ -9,20 +9,15 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import Home from "../components/home";
 
-function HomeScreen({ navigation }) {
+function ShoppingListScreen({ navigation }) {
   return (
     <SafeAreaView
-      style={{
-        flex: 2,
-        justifyContent: "space-around",
-        alignItems: "flex-start",
-      }}
+      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
-      <Home></Home>
+      <Text>ShoppingList</Text>
     </SafeAreaView>
   );
 }
 
-export default HomeScreen;
+export default ShoppingListScreen;

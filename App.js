@@ -15,6 +15,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import * as Sharing from "expo-sharing";
 import styled from "styled-components/native";
+import { Ionicons } from "@expo/vector-icons";
 
 import SplashScreen from "./src/screens/splashScreen";
 import SignUpScreen from "./src/screens/signUpScreen";
@@ -23,7 +24,7 @@ import SearchScreen from "./src/screens/searchScreen";
 import ProfileScreen from "./src/screens/profileScreen";
 import RecipeScreen from "./src/screens/recipeScreen";
 import FavoritesScreen from "./src/screens/favoritesScreen";
-import { Ionicons } from "@expo/vector-icons";
+import ShoppingListScreen from "./src/screens/shoppingListScreen";
 
 const AuthContext = React.createContext();
 const Tab = createBottomTabNavigator();
@@ -36,15 +37,17 @@ function HomeTabs() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ focused, color, size, params }) => {
           let iconName;
 
           if (route.name === "Home") {
             iconName = focused ? "ios-home" : "ios-information-circle-outline";
           } else if (route.name === "Search") {
-            iconName = focused ? "ios-search" : "ios-list";
+            iconName = focused ? "ios-document" : "ios-search";
           } else if (route.name == "Favorites") {
             iconName = focused ? "ios-infinite" : "ios-heart";
+          } else if (route.name == "Shopping") {
+            iconName = focused ? "ios-list" : "ios-card";
           }
 
           // You can return any component that you like here!
@@ -57,6 +60,7 @@ function HomeTabs() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Favorites" component={FavoritesScreen} />
+      <Tab.Screen name="Shopping" component={ShoppingListScreen} />
     </Tab.Navigator>
   );
 }
