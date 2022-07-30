@@ -10,11 +10,10 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import Button from "apsl-react-native-button";
 
-const Recipe = ({ recipeId, label }) => {
+const Recipe = ({ recipeId, label, imageTnail, imageSm }) => {
   const onRecipeClick = () => {
-    onSelectRecipe(recipeId, label);
+    onSelectRecipe(recipeId, label, imageTnail, imageSm);
   };
 
   return (
@@ -33,6 +32,8 @@ const Recipe = ({ recipeId, label }) => {
 Recipe.propTypes = {
   recipeId: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
+  imageTnail: PropTypes.Image,
+  imageSm: PropTypes.Image,
   onSelectRecipe: PropTypes.func.isRequired,
 };
 
