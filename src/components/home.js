@@ -7,13 +7,13 @@ import {
   Image,
   StyleSheet,
   ScrollView,
+  SafeAreaView,
   TouchableOpacity,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import SelectDropdown from "react-native-select-dropdown";
 import axios from "axios";
 import RecipeList from "./recipeList";
-import Recipe from "./recipe";
 
 const kBaseUrl = "https://whats-for-dinner-back-end.herokuapp.com";
 
@@ -43,14 +43,11 @@ const getRecipeData = () => {
 };
 
 const Home = (props) => {
-  const [date, setDate] = React.useState(new Date());
-  const [mode, setMode] = React.useState("date");
-  const [show, setShow] = React.useState(true);
+  const [dateVal, setDate] = React.useState(new Date());
   const [dayVal, setDayVal] = React.useState(1);
   const days = [1, 2, 3, 4, 5, 6, 7];
 
   const [recipeData, setRecipeData] = React.useState([]);
-  const [recipeNum, setRecipeId] = React.useState(0);
 
   const loadRecipes = () => {
     getRecipeData().then((recipes) => {
@@ -69,44 +66,76 @@ const Home = (props) => {
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
-    setShow(false);
     setDate(currentDate);
   };
 
-  const showMode = (currentMode) => {
-    if (Platform.OS === "android") {
-      setShow(false);
-    }
-    <Button onPress={() => setShow(false)} title="Close calendar" />;
-    setMode(currentMode);
-  };
-
-  const showDatepicker = () => {
-    setShow(true);
-    showMode("date");
-  };
-
   return (
-    <View>
-      <Button onPress={showDatepicker} title="Choose a date to see menu" />
-      {show && <DateTimePicker value={date} mode={mode} onChange={onChange} />}
-      <SelectDropdown
-        data={days}
-        defaultButtonText="Select # of days to display"
-        onSelect={(selectedItem, index) => {
-          setDayVal(selectedItem);
-        }}
-        buttonTextAfterSelection={(selectedItem, index) => {
-          return selectedItem;
-        }}
-        rowTextForSelection={(item, index) => {
-          return item;
-        }}
-      />
-      <Text>Days selected: {dayVal}</Text>
-      <RecipeList recipes={recipeData} onSelectRecipe={handleRecipe} />
-    </View>
+    <SafeAreaView>
+      <View style={styles.container}>
+        <DateTimePicker
+          style={styles.datePicker}
+          value={dateVal}
+          mode="date"
+          onChange={onChange}
+          display="inline"
+        />
+        <SelectDropdown
+          data={days}
+          defaultButtonText="Select # of days to display"
+          onSelect={(selectedItem, index) => {
+            setDayVal(selectedItem);
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            return selectedItem;
+          }}
+          rowTextForSelection={(item, index) => {
+            return item;
+          }}
+        />
+      </View>
+      <View style={styles.rList}>
+        <RecipeList recipes={recipeData} onSelectRecipe={handleRecipe} />
+      </View>
+    </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  datePicker: {
+    flex: 1,
+    justifyContent: "space-around",
+    width: 500,
+    textColor: "#354259",
+  },
+  rList: {
+    flex: 1,
+    justifyContent: "space-around",
+    width: 500,
+  },
+  img: {
+    alignSelf: "center",
+    width: 150,
+    height: 150,
+    margin: 20,
+  },
+  textStyle: {
+    color: "#ECE5C7",
+    fontWeight: "bold",
+  },
+  buttonStyle: {
+    borderColor: "#C2DED1",
+    backgroundColor: "#354259",
+    borderWidth: 2,
+    borderRadius: 10,
+    width: 450,
+    alignSelf: "center",
+    margin: 20,
+  },
+});
 
 export default Home;

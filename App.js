@@ -10,12 +10,10 @@ import {
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import * as Sharing from "expo-sharing";
-import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import SplashScreen from "./src/screens/splashScreen";
 import SignUpScreen from "./src/screens/signUpScreen";
@@ -27,17 +25,13 @@ import FavoritesScreen from "./src/screens/favoritesScreen";
 import ShoppingListScreen from "./src/screens/shoppingListScreen";
 
 const AuthContext = React.createContext();
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
 function HomeTabs() {
-  const TabNav = styled.View`
-    background-color: #c2ded1;
-  `;
-
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size, params }) => {
+        tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
           if (route.name === "Home") {
@@ -49,8 +43,6 @@ function HomeTabs() {
           } else if (route.name == "Shopping") {
             iconName = focused ? "ios-list" : "ios-card";
           }
-
-          // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: "#354259",
@@ -162,15 +154,13 @@ function App({ navigation }) {
   }
 
   return (
-    <AuthContext.Provider value={authContext}>
+    <AuthContext.Provider value={authContext} style={styles.container}>
       <SafeAreaProvider>
         <NavigationContainer>
           <Stack.Navigator>
             {state.isLoading ? (
-              // We haven't finished checking for the token yet
               <Stack.Screen name="Splash" component={SplashScreen} />
             ) : state.userToken == null ? (
-              // No token found, user isn't signed in
               <Stack.Screen
                 name="SignIn"
                 component={LoginScreen}
@@ -192,5 +182,45 @@ function App({ navigation }) {
     </AuthContext.Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  login: {
+    flex: 0.75,
+    justifyContent: "center",
+    alignSelf: "center",
+    backgroundColor: "#354259",
+    width: 500,
+    margin: 20,
+    padding: 5,
+  },
+  uName: {
+    flex: 0.25,
+    alignSelf: "center",
+    backgroundColor: "whitesmoke",
+    color: "#354259",
+    width: 400,
+    height: 25,
+    margin: 10,
+  },
+  pWord: {
+    flex: 0.25,
+    alignSelf: "center",
+    backgroundColor: "whitesmoke",
+    color: "#354259",
+    width: 400,
+    height: 25,
+    margin: 10,
+  },
+  img: {
+    alignSelf: "center",
+    width: 150,
+    height: 150,
+    margin: 20,
+  },
+});
 
 export default App;
