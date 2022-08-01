@@ -35,18 +35,19 @@ function HomeTabs() {
           let iconName;
 
           if (route.name === "Home") {
-            iconName = focused ? "ios-home" : "ios-information-circle-outline";
+            iconName = "ios-home";
           } else if (route.name === "Search") {
-            iconName = focused ? "ios-document" : "ios-search";
+            iconName = "ios-search";
           } else if (route.name == "Favorites") {
-            iconName = focused ? "ios-infinite" : "ios-heart";
+            iconName = "ios-heart";
           } else if (route.name == "Shopping") {
-            iconName = focused ? "ios-list" : "ios-card";
+            iconName = "ios-card";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: "#354259",
         tabBarInactiveTintColor: "#CDC2AE",
+        tabBarShowLabel: false,
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
@@ -91,20 +92,14 @@ function App({ navigation }) {
   );
 
   React.useEffect(() => {
-    // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
       let userToken;
 
       try {
-        // Restore token stored in `SecureStore` or any other encrypted storage
         // userToken = await SecureStore.getItemAsync('userToken');
       } catch (e) {
         // Restoring token failed
       }
-
-      // After restoring token, we may need to validate it in production apps
-
-      // This will switch to the App screen or Auth screen and this loading screen will be unmounted and thrown away.
       dispatch({ type: "RESTORE_TOKEN", token: userToken });
     };
 
@@ -133,13 +128,15 @@ function App({ navigation }) {
     <Button title="Sign out" onPress={signOut} />;
 
     return (
-      <SafeAreaView>
+      <SafeAreaView style={styles.login}>
         <TextInput
+          style={styles.uName}
           placeholder="Username"
           value={username}
           onChangeText={setUsername}
         />
         <TextInput
+          style={styles.pWord}
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
@@ -186,7 +183,8 @@ function App({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: "space-around",
+    fontSize: 20,
   },
   login: {
     flex: 0.75,
