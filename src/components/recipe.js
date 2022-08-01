@@ -1,6 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import {
+  Button,
   SafeAreaView,
   Text,
   TextInput,
@@ -11,20 +12,14 @@ import {
   ImageBackground,
 } from "react-native";
 
-const Recipe = ({ recipeId, label, imageTnail, imageSm }) => {
+const Recipe = ({ recipeId, label, imageTnail, imageSm, onSelectRecipe }) => {
   const onRecipeClick = () => {
     onSelectRecipe(recipeId, label, imageTnail, imageSm);
   };
 
   return (
     <SafeAreaView>
-      <Button
-        textStyle={styles.textStyle}
-        onClick={onRecipeClick}
-        style={styles.buttonStyle}
-      >
-        {label}
-      </Button>
+      <Button onPress={onSelectRecipe} title={label} color="#354259"></Button>
     </SafeAreaView>
   );
 };

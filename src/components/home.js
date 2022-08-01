@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+  Alert,
   Button,
   Text,
   TextInput,
@@ -10,10 +11,11 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import SelectDropdown from "react-native-select-dropdown";
 import axios from "axios";
 import RecipeList from "./recipeList";
+import RecipeScreen from "../screens/recipeScreen";
+import moment from "moment";
+import CalendarStrip from "react-native-calendar-strip";
 
 const kBaseUrl = "https://whats-for-dinner-back-end.herokuapp.com";
 
@@ -43,10 +45,8 @@ const getRecipeData = () => {
 };
 
 const Home = (props) => {
+  let iconName;
   const [dateVal, setDate] = React.useState(new Date());
-  const [dayVal, setDayVal] = React.useState(1);
-  const days = [1, 2, 3, 4, 5, 6, 7];
-
   const [recipeData, setRecipeData] = React.useState([]);
 
   const loadRecipes = () => {
@@ -55,42 +55,51 @@ const Home = (props) => {
     });
   };
 
-  const handleRecipe = (recipeId) => {
-    const newNum = recipeId;
-    setRecipeId(newNum);
+  const handleRecipe = () => {
+    Alert.alert("Recipe button pressed");
+    <RecipeScreen />;
   };
 
   React.useEffect(() => {
     loadRecipes();
   }, []);
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
+  const handleDateChange = (event, date) => {
+    const currentDate = date;
     setDate(currentDate);
   };
 
+  markedDatesArray = [
+    {
+      date: new Date(),
+      dots: [
+        {
+          color: "#C2DED1",
+          selectedColor: "#ECE5C7",
+        },
+      ],
+    },
+  ];
+
   return (
     <SafeAreaView>
-      <View style={styles.container}>
-        <DateTimePicker
-          style={styles.datePicker}
-          value={dateVal}
-          mode="date"
-          onChange={onChange}
-          display="inline"
-        />
-        <SelectDropdown
-          data={days}
-          defaultButtonText="Select # of days to display"
-          onSelect={(selectedItem, index) => {
-            setDayVal(selectedItem);
+      <View style={styles.datePicker}>
+        <CalendarStrip
+          scrollable
+          style={{ height: 200, paddingTop: 20, paddingBottom: 10 }}
+          calendarColor={"#354259"}
+          calendarHeaderStyle={{ color: "#ECE5C7" }}
+          markedDates={markedDatesArray}
+          dateNumberStyle={{ color: "#ECE5C7" }}
+          dateNameStyle={{ color: "#ECE5C7" }}
+          highlightDateNumberStyle={{ color: "#354259" }}
+          highlightDateNameStyle={{ color: "#354259" }}
+          daySelectionAnimation={{
+            type: "background",
+            duration: 200,
+            highlightColor: "#C2DED1",
           }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            return item;
-          }}
+          onDateSelected={handleDateChange}
         />
       </View>
       <View style={styles.rList}>
@@ -103,19 +112,15 @@ const Home = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
   },
   datePicker: {
     flex: 1,
-    justifyContent: "space-around",
-    width: 500,
-    textColor: "#354259",
   },
   rList: {
     flex: 1,
-    justifyContent: "space-around",
-    width: 500,
+    justifyContent: "space-between",
+    width: 400,
   },
   img: {
     alignSelf: "center",

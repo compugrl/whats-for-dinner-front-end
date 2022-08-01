@@ -28,11 +28,7 @@ const RecipeList = ({ recipes, onSelectRecipe }) => {
     );
   });
 
-  return (
-    <View>
-      <Text>{recipeComponents}</Text>
-    </View>
-  );
+  return <View>{recipeComponents}</View>;
 };
 
 RecipeList.propTypes = {
