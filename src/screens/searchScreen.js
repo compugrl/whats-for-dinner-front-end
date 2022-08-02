@@ -1,21 +1,17 @@
-import { SafeAreaView } from "react-native-safe-area-context";
 import * as React from "react";
-import {
-  Button,
-  Text,
-  TextInput,
-  View,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { SafeAreaView } from "react-native";
+import SearchDisplay from "../components/searchDisplay";
 
 function SearchScreen({ navigation }) {
   return (
     <SafeAreaView
-      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      style={{
+        flex: 1,
+        justifyContent: "space-between",
+        alignItems: "auto",
+      }}
     >
-      <Text>Search</Text>
+      <SearchDisplay></SearchDisplay>
     </SafeAreaView>
   );
 }

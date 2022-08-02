@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  View,
-  Image,
-  Share,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, Share, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const Sharing = ({ url, title }) => {
@@ -43,8 +36,8 @@ const styles = StyleSheet.create({
   buttonStyle: {
     width: 50,
     height: 50,
-    margin: 10,
-    justifyContent: "center",
+    margin: 5,
+    alignSelf: "center",
   },
 });
 
