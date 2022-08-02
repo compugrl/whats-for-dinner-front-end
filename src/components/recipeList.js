@@ -1,28 +1,21 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import {
-  Button,
-  Text,
-  TextInput,
-  View,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  SectionList,
-  FlatList,
-} from "react-native";
+import { View } from "react-native";
 import Recipe from "./recipe";
 
 const RecipeList = ({ recipes, onSelectRecipe }) => {
   const recipeComponents = recipes.map((recipe) => {
     return (
       <Recipe
-        key={recipe.recipeId}
-        recipeId={recipe.recipeId}
+        key={recipe.id}
+        id={recipe.id}
+        userId={recipe.userId}
         hash={recipe.hash}
         label={recipe.label}
-        imageTnail={recipe.imageTnail}
-        imageSm={recipe.imageSm}
+        imageUrl={recipe.imageUrl}
+        shareAs={recipe.shareAs}
+        menuDate={recipe.menuDate}
+        favorite={recipe.favorite}
         onSelectRecipe={onSelectRecipe}
       />
     );
@@ -32,7 +25,7 @@ const RecipeList = ({ recipes, onSelectRecipe }) => {
 };
 
 RecipeList.propTypes = {
-  recipes: PropTypes.arrayOf(PropTypes.object),
+  recipes: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSelectRecipe: PropTypes.func.isRequired,
 };
 

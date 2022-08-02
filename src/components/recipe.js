@@ -1,34 +1,47 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import {
-  Button,
-  SafeAreaView,
-  Text,
-  TextInput,
-  View,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  ImageBackground,
-} from "react-native";
+import { Button, SafeAreaView, StyleSheet } from "react-native";
 
-const Recipe = ({ recipeId, label, imageTnail, imageSm, onSelectRecipe }) => {
-  const onRecipeClick = () => {
-    onSelectRecipe(recipeId, label, imageTnail, imageSm);
+const Recipe = ({
+  id,
+  userId,
+  hash,
+  shareAs,
+  label,
+  imageUrl,
+  menuDate,
+  favorite,
+  onSelectRecipe,
+}) => {
+  const onRecipePress = () => {
+    onSelectRecipe(
+      id,
+      userId,
+      hash,
+      shareAs,
+      label,
+      imageUrl,
+      menuDate,
+      favorite
+    );
   };
 
   return (
     <SafeAreaView>
-      <Button onPress={onSelectRecipe} title={label} color="#354259"></Button>
+      <Button onPress={onRecipePress} title={label} color="#354259"></Button>
     </SafeAreaView>
   );
 };
 
 Recipe.propTypes = {
-  recipeId: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
+  userId: PropTypes.number.isRequired,
+  hash: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  imageTnail: PropTypes.Image,
-  imageSm: PropTypes.Image,
+  imageUrl: PropTypes.string,
+  shareAs: PropTypes.string.isRequired,
+  menuDate: PropTypes.string,
+  favorite: PropTypes.string,
   onSelectRecipe: PropTypes.func.isRequired,
 };
 
