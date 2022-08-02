@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   FlatList,
+  ImageBackground,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -9,13 +10,18 @@ import {
   View,
 } from "react-native";
 import Sharing from "./sharing";
-import "../../data/response.json";
+import SetFavorite from "./setFavorite";
 
 const recipes = require("../../data/response.json");
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
+    <ImageBackground source={{ uri: item.imageUrl }} style={styles.img} />
     <Text style={[styles.label, textColor]}>{item.label}</Text>
+    <View style={styles.container}>
+      <Sharing url={item.shareAs} title={item.label} />
+      <SetFavorite id={item.id} />
+    </View>
   </TouchableOpacity>
 );
 
@@ -34,7 +40,6 @@ const SearchDisplay = () => {
           backgroundColor={{ backgroundColor }}
           textColor={{ color }}
         />
-        <Sharing url={item.shareAs} title={item.label} />
       </View>
     );
   };
@@ -61,10 +66,17 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 5,
     marginHorizontal: 5,
-    width: 250,
+    width: 350,
+    alignSelf: "center",
   },
   label: {
-    fontSize: 18,
+    fontSize: 20,
+    margin: 10,
+  },
+  img: {
+    alignSelf: "flex-start",
+    width: 100,
+    height: 100,
   },
 });
 

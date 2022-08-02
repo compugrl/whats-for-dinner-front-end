@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     margin: 5,
-    alignSelf: "center",
+    alignSelf: "flex-end",
   },
 });
 
