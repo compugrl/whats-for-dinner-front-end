@@ -33,6 +33,7 @@ function HomeTabs() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
+          const iconSize = 24;
 
           if (route.name === "Home") {
             iconName = "ios-home";
@@ -43,7 +44,7 @@ function HomeTabs() {
           } else if (route.name == "Shopping") {
             iconName = "ios-card";
           }
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName} size={iconSize} color={color} />;
         },
         tabBarActiveTintColor: "#354259",
         tabBarInactiveTintColor: "#CDC2AE",
