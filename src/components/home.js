@@ -51,7 +51,7 @@ const Home = (props) => {
 
   const loadRecipes = () => {
     getRecipeData().then((recipes) => {
-      setRecipeData(recipes);
+      if (isMounted) setRecipeData(recipes);
     });
   };
 
@@ -61,7 +61,13 @@ const Home = (props) => {
   };
 
   React.useEffect(() => {
-    loadRecipes();
+    let isMounted = true;
+    getRecipeData().then((recipes) => {
+      if (isMounted) setRecipeData(recipes);
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleDateChange = (event, date) => {
@@ -69,7 +75,7 @@ const Home = (props) => {
     setDate(currentDate);
   };
 
-  markedDatesArray = [
+  const markedDatesArray = [
     {
       date: new Date(),
       dots: [
