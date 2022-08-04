@@ -12,7 +12,7 @@ import {
 import Sharing from "./sharing";
 import SetFavorite from "./setFavorite";
 
-const recipes = require("../../data/response.json");
+const recipes = require("../../data/searchData.json");
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
