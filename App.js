@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import * as React from "react";
 import {
   Button,
@@ -8,6 +9,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -15,8 +17,6 @@ import * as Sharing from "expo-sharing";
 import { Ionicons } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
-import SplashScreen from "./src/screens/splashScreen";
-import SignUpScreen from "./src/screens/signUpScreen";
 import HomeScreen from "./src/screens/homeScreen";
 import SearchScreen from "./src/screens/searchScreen";
 import ProfileScreen from "./src/screens/profileScreen";
@@ -46,7 +46,7 @@ function HomeTabs() {
           }
           return <Ionicons name={iconName} size={iconSize} color={color} />;
         },
-        tabBarActiveTintColor: "#354259",
+        tabBarActiveTintColor: "#246A73",
         tabBarInactiveTintColor: "#CDC2AE",
         tabBarShowLabel: false,
       })}
@@ -130,6 +130,7 @@ function App({ navigation }) {
 
     return (
       <SafeAreaView style={styles.login}>
+        <Image source={require("./assets/splash.png")} style={styles.img} />
         <TextInput
           style={styles.uName}
           placeholder="Username"
@@ -144,6 +145,7 @@ function App({ navigation }) {
           secureTextEntry
         />
         <Button
+          color="#160F29"
           title="Sign in"
           onPress={() => signIn({ username, password })}
         />
@@ -155,18 +157,18 @@ function App({ navigation }) {
     <AuthContext.Provider value={authContext} style={styles.container}>
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator>
-            {state.isLoading ? (
-              <Stack.Screen name="Splash" component={SplashScreen} />
-            ) : state.userToken == null ? (
-              <Stack.Screen
-                name="SignIn"
-                component={LoginScreen}
-                options={{
-                  title: "Sign in",
-                  animationTypeForReplace: state.isSignout ? "pop" : "push",
-                }}
-              />
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            {state.userToken == null ? (
+              <>
+                <Stack.Screen
+                  name="SignIn"
+                  component={LoginScreen}
+                  options={{
+                    title: "Sign in",
+                    animationTypeForReplace: state.isSignout ? "pop" : "push",
+                  }}
+                />
+              </>
             ) : (
               // User is signed in
               <>
@@ -191,33 +193,37 @@ const styles = StyleSheet.create({
     flex: 0.75,
     justifyContent: "center",
     alignSelf: "center",
-    backgroundColor: "#354259",
-    width: 500,
+    backgroundColor: "#246A73",
+    width: 400,
     margin: 20,
     padding: 5,
   },
   uName: {
     flex: 0.25,
     alignSelf: "center",
+    textAlign: "center",
     backgroundColor: "whitesmoke",
-    color: "#354259",
-    width: 400,
-    height: 25,
+    color: "#246A73",
+    width: 350,
+    height: 35,
     margin: 10,
+    fontSize: 20,
   },
   pWord: {
     flex: 0.25,
     alignSelf: "center",
+    textAlign: "center",
     backgroundColor: "whitesmoke",
-    color: "#354259",
-    width: 400,
-    height: 25,
+    color: "#246A73",
+    width: 350,
+    height: 35,
     margin: 10,
+    fontSize: 20,
   },
   img: {
     alignSelf: "center",
-    width: 150,
-    height: 150,
+    width: 200,
+    height: 200,
     margin: 20,
   },
 });

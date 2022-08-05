@@ -29,8 +29,8 @@ const SearchDisplay = () => {
   const [selectedId, setSelectedId] = useState(null);
 
   const renderItem = ({ item }) => {
-    const backgroundColor = item.id === selectedId ? "#C2DED1" : "#354259";
-    const color = item.id === selectedId ? "#354259" : "#ECE5C7";
+    const backgroundColor = item.id === selectedId ? "#368F8B" : "#246A73";
+    const color = item.id === selectedId ? "#246A73" : "#F3DFC1";
 
     return (
       <View style={styles.container}>
@@ -72,11 +72,6 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 20,
     margin: 10,
-  },
-  img: {
-    alignSelf: "flex-start",
-    width: 100,
-    height: 100,
   },
 });
 

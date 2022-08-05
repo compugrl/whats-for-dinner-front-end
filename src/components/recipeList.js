@@ -7,15 +7,11 @@ const RecipeList = ({ recipes, onSelectRecipe }) => {
   const recipeComponents = recipes.map((recipe) => {
     return (
       <Recipe
-        key={recipe.id}
-        id={recipe.id}
-        userId={recipe.userId}
-        hash={recipe.hash}
+        key={recipe.rhash}
+        rhash={recipe.rhash}
         label={recipe.label}
         imageUrl={recipe.imageUrl}
         shareAs={recipe.shareAs}
-        menuDate={recipe.menuDate}
-        favorite={recipe.favorite}
         onSelectRecipe={onSelectRecipe}
       />
     );
