@@ -9,9 +9,9 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import Home from "../components/home";
+import Home from "../components/Authenticated/Home";
 
-function HomeScreen({ navigation }) {
+function HomeScreen({ route, navigation }) {
   return (
     <SafeAreaView
       style={{

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { SafeAreaView } from "react-native";
-import SearchDisplay from "../components/searchDisplay";
+import SearchDisplay from "../components/Authenticated/SearchDisplay";
 
 function SearchScreen({ navigation }) {
   return (

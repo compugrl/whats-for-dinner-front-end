@@ -1,5 +1,6 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as React from "react";
+import { WebView } from "react-native-webview";
+import React, { Component } from "react";
 import {
   Button,
   Text,
@@ -9,17 +10,24 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { navigation } from "@react-navigation/native-stack";
 
-function RecipeScreen({ navigation }) {
+class RecipeView extends Component {
+  render() {
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <WebView source={{ uri: shareAs }} />
+      </SafeAreaView>
+    );
+  }
+}
+
+function RecipeScreen({ route, navigation }) {
+  const { shareAs } = route.params;
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Recipe</Text>
-      <Button
-        title="Go to Home"
-        onPress={() => navigation.navigate("HomeScreen")}
-      />
+    <View>
+      <RecipeView shareAs={shareAs} />
     </View>
   );
 }
-
 export default RecipeScreen;
