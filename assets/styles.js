@@ -1,9 +1,9 @@
 import { StyleSheet } from "react-native";
 
-export const styles = Stylesheet.create({
+export const styles = StyleSheet.create({
   buttonStyle: {
-    borderColor: "#C2DED1",
-    backgroundColor: "#354259",
+    borderColor: "#368F8B",
+    backgroundColor: "#246A73",
     borderWidth: 2,
     borderRadius: 10,
     width: 450,
@@ -14,30 +14,22 @@ export const styles = Stylesheet.create({
     flex: 1,
     justifyContent: "space-around",
     fontSize: 20,
+    paddingTop: 30,
   },
   login: {
     flex: 0.75,
     justifyContent: "center",
     alignSelf: "center",
-    backgroundColor: "#354259",
+    backgroundColor: "#246A73",
     width: 500,
     margin: 20,
     padding: 5,
   },
-  uName: {
+  input: {
     flex: 0.25,
     alignSelf: "center",
     backgroundColor: "whitesmoke",
-    color: "#354259",
-    width: 400,
-    height: 25,
-    margin: 10,
-  },
-  pWord: {
-    flex: 0.25,
-    alignSelf: "center",
-    backgroundColor: "whitesmoke",
-    color: "#354259",
+    color: "#246A73",
     width: 400,
     height: 25,
     margin: 10,
@@ -47,5 +39,11 @@ export const styles = Stylesheet.create({
     width: 150,
     height: 150,
     margin: 20,
+  },
+  completed: {
+    textDecorationLine: "line-through",
+  },
+  incomplete: {
+    textDecorationLine: "none",
   },
 });

@@ -26,7 +26,7 @@ const Sharing = ({ url, title }) => {
   return (
     <View style={styles.buttonStyle}>
       <TouchableOpacity onPress={onShare} title="Share">
-        <Ionicons name="ios-share" size={size} color="#CDC2AE" />
+        <Ionicons name="ios-share" size={size} color="#160F29" />
       </TouchableOpacity>
     </View>
   );

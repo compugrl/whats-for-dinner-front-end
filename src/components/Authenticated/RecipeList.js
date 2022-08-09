@@ -1,7 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";
-import Recipe from "./recipe";
+import Recipe from "./Recipe";
 
 const RecipeList = ({ recipes, onSelectRecipe }) => {
   const recipeComponents = recipes.map((recipe) => {
