@@ -31,16 +31,24 @@ const Recipe = ({
     onSelectRecipe(shareAs);
   };
 
-  return (
-    <SafeAreaView>
-      <View>
-        <Text style={styles.titleText} onPress={onRecipePress}>
-          {label}
-        </Text>
-        <Separator />
-      </View>
-    </SafeAreaView>
-  );
+  if (Recipe === {}) {
+    return (
+      <SafeAreaView>
+        <Text>No recipe for this date</Text>
+      </SafeAreaView>
+    );
+  } else {
+    return (
+      <SafeAreaView>
+        <View>
+          <Text style={styles.titleText} onPress={onRecipePress}>
+            {label}
+          </Text>
+          <Separator />
+        </View>
+      </SafeAreaView>
+    );
+  }
 };
 
 Recipe.propTypes = {

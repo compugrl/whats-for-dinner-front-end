@@ -21,6 +21,15 @@ const Navigator = () => {
   const Tab = createMaterialTopTabNavigator();
   const Stack = createStackNavigator();
 
+  function LogoTitle() {
+    return (
+      <Image
+        style={{ width: 50, height: 50 }}
+        source={require("../../assets/splash.png")}
+      />
+    );
+  }
+
   function HomeTabs() {
     return (
       <Tab.Navigator
@@ -36,7 +45,7 @@ const Navigator = () => {
             } else if (route.name == "Favorites") {
               iconName = "ios-heart";
             } else if (route.name == "Shopping") {
-              iconName = "ios-card";
+              iconName = "ios-cart";
             }
             return <Ionicons name={iconName} size={iconSize} color={color} />;
           },
@@ -55,7 +64,7 @@ const Navigator = () => {
 
   function AuthStack() {
     return (
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="SignUp" component={SignUp} />
@@ -65,8 +74,12 @@ const Navigator = () => {
 
   function AppStack() {
     return (
-      <Stack.Navigator>
-        <Stack.Screen name="HomeTabs" component={HomeTabs} />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen
+          name="HomeTabs"
+          component={HomeTabs}
+          options={{ headerTitle: (props) => <LogoTitle {...props} /> }}
+        />
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Recipe" component={RecipeScreen} />
       </Stack.Navigator>

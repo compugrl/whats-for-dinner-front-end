@@ -1,14 +1,5 @@
-import { SafeAreaView } from "react-native-safe-area-context";
-import * as React from "react";
-import {
-  Button,
-  Text,
-  TextInput,
-  View,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import React from "react";
+import { SafeAreaView } from "react-native";
 import Home from "../components/Authenticated/Home";
 
 function HomeScreen({ route, navigation }) {

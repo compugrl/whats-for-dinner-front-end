@@ -25,9 +25,9 @@ const recipeApiToJson = (recipe) => {
   return { rhash, label, imageUrl, shareAs };
 };
 
-const getMenuItems = (dateVal) => {
+const getMenuItems = (uid, dateVal) => {
   return axios
-    .get(`${kBaseUrl}/ur/user/${uid}/date?menu_date=${dateVal}`)
+    .get(`${kBaseUrl}/ur/user/${uid}/date?start_date=${dateVal}`)
     .then((response) => {
       return response.data.map(recipeApiToJson);
     })
@@ -61,7 +61,7 @@ const Home = () => {
   const handleDateChange = (event, date) => {
     const currentDate = date;
     setDate(currentDate);
-    const newRecipes = getMenuItems(dateVal);
+    const newRecipes = getMenuItems(uid, dateVal);
     setRecipeData(newRecipes);
   };
 

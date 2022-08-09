@@ -1,17 +1,17 @@
-import * as React from "react";
+import React from "react";
 import { SafeAreaView } from "react-native";
-import SearchDisplay from "../components/Authenticated/SearchDisplay";
+import Search from "../components/Authenticated/Search";
 
-function SearchScreen({ navigation }) {
+function SearchScreen({ route, navigation }) {
   return (
     <SafeAreaView
       style={{
-        flex: 1,
-        justifyContent: "space-between",
-        alignItems: "auto",
+        flex: 2,
+        justifyContent: "space-around",
+        alignItems: "flex-start",
       }}
     >
-      <SearchDisplay></SearchDisplay>
+      <Search />
     </SafeAreaView>
   );
 }
