@@ -1,0 +1,9 @@
+[
+    { "label": "Diet", "value": "diet" },
+    { "label": "Balanced", "value": "balanced", "parent": "diet" },
+    { "label": "High Fiber", "value": "high-fiber", "parent": "diet" },
+    { "label": "High Protein", "value": "high-protein", "parent": "diet" },
+    { "label": "Low Carb", "value": "low-carb", "parent": "diet" },
+    { "label": "Low Fat", "value": "low-fat", "parent": "diet" },
+    { "label": "Low Sodium", "value": "low-sodium", "parent": "diet" }
+  ]

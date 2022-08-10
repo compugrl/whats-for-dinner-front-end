@@ -1,0 +1,21 @@
+[
+    { "label": "Cuisine", "value": "cuisine" },
+    { "label": "South East Asian", "value": "South East Asian", "parent": "cuisine" },
+    { "label": "South American", "value": "South American", "parent": "cuisine" },
+    { "label": "Nordic", "value": "Nordic", "parent": "cuisine" },
+    { "label": "Middle Eastern", "value": "Middle Eastern", "parent": "cuisine" },
+    { "label": "Mexican", "value": "Mexican", "parent": "cuisine" },
+    { "label": "Mediterranean", "value": "Mediterranean", "parent": "cuisine" },
+    { "label": "Japanese", "value": "Japanese", "parent": "cuisine"},
+    { "label": "Kosher", "value": "Kosher", "parent": "cuisine" },
+    { "label": "Italian", "value": "Italian", "parent": "cuisine" },
+    { "label": "Indian", "value": "Indian", "parent": "cuisine" },
+    { "label": "French", "value": "French", "parent": "cuisine" },
+    { "label": "Eastern Europe", "value": "Eastern Europe", "parent": "cuisine" },
+    { "label": "Chinese", "value": "Chinese", "parent": "cuisine" },
+    { "label": "Central Europe", "value": "Central Europe", "parent": "cuisine" },
+    { "label": "Caribbean", "value": "Caribbean", "parent": "cuisine" },
+    { "label": "British", "value": "British", "parent": "cuisine" },
+    { "label": "Asian", "value": "Asian", "parent": "cuisine" },
+    { "label": "American", "value": "American", "parent": "cuisine" } 
+  ]

@@ -52,16 +52,16 @@ const Recipe = ({
 };
 
 Recipe.propTypes = {
-  rhash: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  rhash: PropTypes.string,
+  label: PropTypes.string,
   imageUrl: PropTypes.string,
-  shareAs: PropTypes.string.isRequired,
+  shareAs: PropTypes.string,
   onSelectRecipe: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
   separator: {
-    marginVertical: 8,
+    marginVertical: 20,
     width: 400,
     borderBottomColor: "#246A73",
     borderBottomWidth: StyleSheet.hairlineWidth,
