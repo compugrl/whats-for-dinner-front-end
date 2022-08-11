@@ -8,13 +8,13 @@ import Welcome from "../components/Unauthenticated/Welcome";
 import Login from "../components/Unauthenticated/Login";
 import SignUp from "../components/Unauthenticated/SignUp";
 
-import HomeScreen from "../screens/HomeScreen";
+import Home from "../components/Authenticated/Home";
 import SearchScreen from "../screens/SearchScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import ShoppingListScreen from "../screens/ShoppingListScreen";
 
 import ProfileScreen from "../screens/ProfileScreen";
-import RecipeScreen from "../screens/RecipeScreen";
+import ViewRecipe from "../components/Authenticated/ViewRecipe";
 
 const Navigator = () => {
   const { currentUser } = useContext(AuthContext);
@@ -54,7 +54,7 @@ const Navigator = () => {
           tabBarShowLabel: false,
         })}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="Search" component={SearchScreen} />
         <Tab.Screen name="Favorites" component={FavoritesScreen} />
         <Tab.Screen name="Shopping" component={ShoppingListScreen} />
@@ -81,7 +81,7 @@ const Navigator = () => {
           options={{ headerTitle: (props) => <LogoTitle {...props} /> }}
         />
         <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="Recipe" component={RecipeScreen} />
+        <Stack.Screen name="Recipe" component={ViewRecipe} />
       </Stack.Navigator>
     );
   }

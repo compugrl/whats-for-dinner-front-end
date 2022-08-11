@@ -11,7 +11,6 @@ import {
   Text,
   View,
 } from "react-native";
-import RecipeScreen from "../../screens/RecipeScreen";
 
 const Stack = createStackNavigator();
 const Separator = () => <View style={styles.separator} />;

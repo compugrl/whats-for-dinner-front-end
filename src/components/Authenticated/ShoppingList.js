@@ -20,7 +20,6 @@ import { AuthContext } from "../../context/AuthContext";
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <View style={styles.container}>
-      <ImageBackground source={{ uri: item.imageUrl }} style={styles.img} />
       <Text style={[styles.label, textColor]}>{item.ingredient}</Text>
       <SetComplete id={item.id} uid={item.uid} completed={item.completed} />
       <DeleteIngredient id={item.id} />

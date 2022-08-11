@@ -7,6 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Navigator from "./src/screens/Navigator";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { AuthProvider } from "./src/context/AuthContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();

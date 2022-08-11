@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Sharing from "./Sharing";
+import Share from "./Share";
 import SetFavorite from "./SetFavorite";
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
@@ -17,7 +17,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
     <ImageBackground source={{ uri: item.imageUrl }} style={styles.img} />
     <Text style={[styles.label, textColor]}>{item.label}</Text>
     <View style={styles.container}>
-      <Sharing url={item.shareAs} title={item.label} />
+      <Share url={item.shareAs} title={item.label} />
     </View>
   </TouchableOpacity>
 );
