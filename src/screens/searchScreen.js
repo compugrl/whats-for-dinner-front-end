@@ -2,7 +2,7 @@ import React from "react";
 import { SafeAreaView } from "react-native";
 import Search from "../components/Authenticated/Search";
 
-function SearchScreen({ route, navigation }) {
+function SearchScreen({ navigation }) {
   return (
     <SafeAreaView
       style={{

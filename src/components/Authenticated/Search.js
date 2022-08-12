@@ -121,6 +121,8 @@ const Search = () => {
             cuisine={excluded}
             onChangeText={updateExcluded}
           />
+        </View>
+        <View style={styles.filter}>
           <TextInput
             style={styles.input}
             type="Input"
@@ -130,6 +132,8 @@ const Search = () => {
             cuisine={ingr}
             onChangeText={updateIngrLimit}
           />
+        </View>
+        <View style={styles.filter}>
           <TextInput
             style={styles.input}
             type="Input"
@@ -228,12 +232,12 @@ const styles = StyleSheet.create({
   },
   filter: {
     backgroundColor: "#246A73",
-    flex: 0.4,
+    flex: 0.25,
     width: 350,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 15,
-    margin: 15,
+    margin: 5,
   },
   rList: {
     flex: 2,

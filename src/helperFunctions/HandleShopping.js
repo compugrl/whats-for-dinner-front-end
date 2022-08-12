@@ -1,28 +1,11 @@
-import React, { useContext, useState } from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React, { useReducer, useState } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 
 const kBaseUrl = `https://wfd-back-end.herokuapp.com/shopping_list`;
 let completed = false;
-
-const loadShoppingList = async (uid) => {
-  const result = await axios(
-    `https://wfd-back-end.herokuapp.com/shopping_list/${uid}/ingredients`
-  );
-  console.log(result);
-  setShoppingData(result.data);
-
-  return shoppingData;
-};
 
 function SetComplete({ id, uid, completed }) {
   const [toggle, SetToggle] = useState(completed);
@@ -63,11 +46,12 @@ function DeleteIngredient({ id, uid }) {
   let iconName;
   const size = 48;
   iconName = "ios-trash";
+  const [, forceUpdate] = useState(0);
 
-  const performDelete = async (id) => {
+  const performDelete = async (id, uid) => {
     try {
       const response = await axios.delete(`${kBaseUrl}/${id}`);
-      loadShoppingList(uid);
+      forceUpdate((n) => !n);
       return response;
     } catch (err) {
       console.log(err);
@@ -75,8 +59,8 @@ function DeleteIngredient({ id, uid }) {
   };
 
   const onDelete = () => {
-    performDelete(id).then((deleted) => {
-      console.log(deleted);
+    performDelete(id, uid).then((deleted) => {
+      console.log(id, "deletion success");
     });
   };
 

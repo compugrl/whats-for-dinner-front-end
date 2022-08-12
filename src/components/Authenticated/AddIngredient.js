@@ -1,107 +1,83 @@
-import React, { useContext, useState } from "react";
+import { Component, useEffect, useState, useContext } from "react";
 import {
+  FlatList,
+  Text,
+  View,
+  StyleSheet,
   SafeAreaView,
   StatusBar,
-  StyleSheet,
-  Text,
-  TextInput,
   TouchableOpacity,
-  View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
+import { StackActions } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 
-function AddIngredient() {
+const rhash = "527dfeadacd4ceb0c31d7d7d7ac8e983";
+const kBaseUrl = "https://wfd-back-end.herokuapp.com/search";
+
+const Item = ({ item, onPress }) => (
+  <TouchableOpacity onPress={onPress} style={[styles.item]}>
+    <View style={styles.rList}>
+      <Text style={styles.label}>{item.food}</Text>
+    </View>
+  </TouchableOpacity>
+);
+
+const AddIngredient = () => {
+  const navigation = useNavigation();
   const { currentUser } = useContext(AuthContext);
   const uid = currentUser.uid;
-  const [addedIngredient, setAddedIngredient] = useState(null);
-  let iconName;
-  const size = 48;
-  iconName = "ios-add";
+  const [ingredientData, setIngredientData] = useState([]);
 
-  const kBaseUrl = `https://wfd-back-end.herokuapp.com/shopping_list`;
-
-  const performAdd = async (uid) => {
-    console.log(`Added ingredient: ${addedIngredient} for ${uid}`);
-    const requestBody = {
-      ingredient: { add },
-      completed: false,
+  useEffect(() => {
+    const loadRecipe = async () => {
+      const result = await axios(`${kBaseUrl}/${rhash}&field=ingredients`);
+      const ingredients = result.data.recipe.ingredients;
+      setIngredientData(ingredients);
     };
-    try {
-      const response = await axios.post(`${kBaseUrl}/${uid}`, requestBody);
-      loadShoppingList(uid);
-      console.log(response);
-      return response;
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    loadRecipe();
+  }, []);
 
-  const onAdd = () => {
-    performAdd(uid).then((newIngredient) => {
-      console.log(newIngredient);
-    });
+  const renderItem = ({ item }) => {
+    return (
+      <View style={styles.container}>
+        <Item item={item} />
+      </View>
+    );
   };
-
   return (
-    <SafeAreaView>
-      <View>
-        <Text style={styles.label}>Add an Ingredient</Text>
-      </View>
-      <View style={styles.addView}>
-        <TextInput
-          style={styles.input}
-          onChangeText={(newIngredient) => setAddedIngredient(newIngredient)}
-          onSubmitEditing={onAdd}
-          value={addedIngredient}
-        ></TextInput>
-        <AddIngredient add={addedIngredient} uid={uid} />
-      </View>
-      <View style={styles.buttonStyle}>
-        <TouchableOpacity onPress={onAdd} title="Add">
-          <Ionicons name={iconName} size={size} color="#F3DFC1" />
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+    <FlatList
+      data={ingredientData}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.foodId}
+    />
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
+  },
+  rList: {
+    flex: 2,
     flexDirection: "row",
+    justifyContent: "space-around",
+    width: 400,
+    justifyContent: "flex-start",
   },
   item: {
-    padding: 10,
+    padding: 5,
     marginVertical: 5,
-    marginHorizontal: 5,
     width: 350,
     alignSelf: "center",
   },
   label: {
+    textAlignVertical: "top",
     fontSize: 20,
-    margin: 10,
+    marginHorizontal: 5,
     width: 175,
-  },
-  addView: {
-    flex: "0.25",
-    flexDirection: "row",
-    backgroundColor: "#160F29",
-    color: "#F3DFC1",
-    width: 350,
-    alignSelf: "center",
-  },
-  input: {
-    alignSelf: "center",
-    backgroundColor: "whitesmoke",
-    textAlign: "center",
-    color: "#246A73",
-    width: 250,
-    height: 35,
-    margin: 10,
-    fontSize: 20,
   },
 });
 

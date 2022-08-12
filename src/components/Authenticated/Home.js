@@ -15,13 +15,15 @@ import {
 } from "react-native";
 import axios from "axios";
 import { format } from "date-fns";
-import ViewRecipe from "./ViewRecipe";
 import Sharing from "./Sharing";
-import Collapsible from "react-native-collapsible";
+import ViewRecipe from "./ViewRecipe";
+import { useNavigation } from "@react-navigation/native";
+import { StackActions } from "@react-navigation/native";
 import CalendarStrip from "react-native-calendar-strip";
 import { AuthContext } from "../../context/AuthContext";
 
 const kBaseUrl = "https://wfd-back-end.herokuapp.com/ur";
+const markedDatesArray = [];
 
 const recipeApiToJson = (recipe) => {
   const {
@@ -44,7 +46,9 @@ const Item = ({ item, onPress }) => (
   </TouchableOpacity>
 );
 
-const Home = ({ route, navigation }) => {
+const Home = () => {
+  const today = format(new Date(), "MMM dd yyyy");
+  const navigation = useNavigation();
   const { currentUser } = useContext(AuthContext);
   const uid = currentUser.uid;
   const [dateVal, setDate] = useState(new Date());
@@ -56,34 +60,29 @@ const Home = ({ route, navigation }) => {
     const result = await axios(
       `${kBaseUrl}/user/${uid}/date?start_date=${dateVal}`
     );
-
     return result.data.map(recipeApiToJson);
   };
 
   useEffect(() => {
     const loadRecipes = async () => {
-      const today = format(new Date(), "MMM dd yyyy");
       setDate(today);
       const result = await axios(
         `${kBaseUrl}/user/${uid}/date?start_date=${today}`
       );
       const res = result.data.map(recipeApiToJson);
       setRecipeData(res);
-      console.log("Recipes: " + JSON.stringify(recipeData));
     };
     loadRecipes();
   }, []);
 
-  const handleRecipe = (item) => {
-    setSelectedSA(item.shareAs);
-    setSelectedLabel(item.label);
-    console.log(`Label: ${selectedLabel}`);
-  };
-
-  const handleDateChange = (event, date) => {
-    const currentDate = date;
-    setDate(currentDate);
-    const newRecipes = getMenuItems(uid, dateVal);
+  const handleDateChange = (val) => {
+    val = val.toString();
+    const newVal = val.slice(4, 16).trim();
+    console.log(`newVal: ${newVal}`);
+    setDate(newVal);
+    console.log("Date after set state: ", dateVal);
+    const newRecipes = getMenuItems();
+    console.log(`New Recipes: ${newRecipes}`);
     setRecipeData(newRecipes);
   };
 
@@ -91,38 +90,42 @@ const Home = ({ route, navigation }) => {
     if (item.label === "No menu item") {
       return (
         <View style={styles.container}>
-          <Item
-            item={item}
-            onPress={() => Alert.alert("No menu item for this day")}
-          />
+          <Item item={item} onPress={() => Alert.alert("No menu item")} />
         </View>
       );
     } else {
+      markedDatesArray.push({
+        date: item.menuDate,
+        dots: [
+          {
+            color: "#160F29",
+            selectedColor: "#160F29",
+          },
+        ],
+      });
       return (
         <View style={styles.container}>
-          <Item item={item} onPress={handleRecipe(item)} />
+          <Item
+            item={item}
+            onPress={function () {
+              setSelectedSA(item.shareAs);
+              console.log("Url sent: ", selectedSA);
+              navigation.dispatch(
+                StackActions.push("RecipeScreen", { shareAs: selectedSA })
+              );
+            }}
+          />
         </View>
       );
     }
   };
-
-  const markedDatesArray = [
-    {
-      date: new Date(),
-      dots: [
-        {
-          color: "#160F29",
-          selectedColor: "#160F29",
-        },
-      ],
-    },
-  ];
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.datePicker}>
         <CalendarStrip
           scrollable
+          startingDate={new Date()}
           style={{ height: 150, paddingTop: 20, paddingBottom: 20 }}
           calendarColor={"#246A73"}
           calendarHeaderStyle={{ color: "#F3DFC1" }}
@@ -136,7 +139,8 @@ const Home = ({ route, navigation }) => {
             duration: 200,
             highlightColor: "#160F29",
           }}
-          onDateSelected={handleDateChange}
+          onDateSelected={(val) => handleDateChange(val)}
+          selectedDate={dateVal}
         />
       </View>
       <View style={styles.rList}>
@@ -168,10 +172,10 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   img: {
-    alignSelf: "center",
     width: 150,
     height: 150,
     margin: 20,
+    resizeMode: "contain",
   },
   item: {
     padding: 5,

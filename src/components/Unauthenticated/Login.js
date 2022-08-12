@@ -10,7 +10,7 @@ import {
 import { styles } from "../../../assets/styles";
 import { auth } from "../../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { DismissKeyboard } from "../../helperFunctions/dismissKeyboard";
+import { DismissKeyboard } from "../../helperFunctions/DismissKeyboard";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");

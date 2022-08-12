@@ -1,44 +1,31 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { WebView } from "react-native-webview";
-import React, { Component } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import React, { Component, useState } from "react";
+import { StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-const shareAs =
-  "http://www.edamam.com/recipe/creamy-and-healthy-chicken-enchiladas-la-b73f462b24815d573c12d8543c078a28/chicken";
+let shareAs = "";
 
 class RecipeView extends Component {
   render() {
+    console.log("Passed to webview: " + this.props.url);
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <WebView source={{ uri: shareAs }} />
+        <WebView source={{ uri: this.props.url }} />
       </SafeAreaView>
     );
   }
 }
 
-function ViewRecipe({ shareAs }) {
-  const shareStr = JSON.stringify(shareAs);
-  const [share, setShare] = useState(shareStr);
-  const size = 48;
-  const onView = async () => {
-    try {
-      <RecipeView shareAs={shareAs} />;
-    } catch (error) {
-      alert(error.message);
-    }
-  };
-  return (
-    <View style={styles.buttonStyle}>
-      <TouchableOpacity onPress={onView} title="View">
-        <Ionicons
-          name="ios-information-circle-outline"
-          size={size}
-          color="#160F29"
-        />
-      </TouchableOpacity>
-    </View>
-  );
+function ViewRecipe({ recipe }) {
+  const navigation = useNavigation();
+  const [share, setShare] = useState(recipe.shareAs);
+  const [rhash, setRhash] = useState(recipe.rhash);
+
+  console.log("Url: ", share);
+  console.log("Hash: ", rhash);
+  return <RecipeView url={share} />;
 }
 
 const styles = StyleSheet.create({

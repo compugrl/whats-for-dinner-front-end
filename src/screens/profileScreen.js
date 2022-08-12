@@ -9,14 +9,15 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import Profile from "../components/Authenticated/Profile";
 
 function ProfileScreen({ navigation }) {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Profile</Text>
+      <Profile />
       <Button
-        title="Go to Home"
-        onPress={() => navigation.navigate("HomeScreen")}
+        title="Return to Home"
+        onPress={() => navigation.navigate("Home")}
       />
     </View>
   );

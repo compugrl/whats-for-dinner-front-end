@@ -10,7 +10,6 @@ import {
   View,
 } from "react-native";
 import axios from "axios";
-import { Ionicons } from "@expo/vector-icons";
 import {
   SetComplete,
   DeleteIngredient,
@@ -22,7 +21,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
     <View style={styles.container}>
       <Text style={[styles.label, textColor]}>{item.ingredient}</Text>
       <SetComplete id={item.id} uid={item.uid} completed={item.completed} />
-      <DeleteIngredient id={item.id} />
+      <DeleteIngredient id={item.id} uid={item.uid} />
     </View>
   </TouchableOpacity>
 );
@@ -40,7 +39,6 @@ const ShoppingList = () => {
       const result = await axios(
         `https://wfd-back-end.herokuapp.com/shopping_list/${uid}/ingredients`
       );
-      console.log(result);
       setShoppingData(result.data);
     };
     loadShoppingList();
@@ -78,7 +76,7 @@ const ShoppingList = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    marginTop: StatusBar.currentHeight || 10,
     flexDirection: "row",
   },
   item: {
@@ -92,14 +90,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     margin: 10,
     width: 175,
-  },
-  addView: {
-    flex: "0.25",
-    flexDirection: "row",
-    backgroundColor: "#160F29",
-    color: "#F3DFC1",
-    width: 350,
-    alignSelf: "center",
   },
   input: {
     alignSelf: "center",
