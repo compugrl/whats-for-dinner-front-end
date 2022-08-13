@@ -11,14 +11,15 @@ import Login from "../components/Unauthenticated/Login";
 import SignUp from "../components/Unauthenticated/SignUp";
 
 import HomeScreen from "../screens/HomeScreen";
-import SearchScreen from "../screens/SearchScreen";
+import SearchScreen from "./SearchScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
 import ShoppingListScreen from "../screens/ShoppingListScreen";
 
 import ProfileScreen from "../screens/ProfileScreen";
 import ViewRecipe from "../components/Authenticated/ViewRecipe";
-import AddIngredient from "../components/Authenticated/AddIngredient";
-import IngredientList from "../components/Authenticated/IngredientList";
+import SelectIngr from "../components/Authenticated/SelectIngr";
+import SelectList from "../components/Authenticated/SelectIngr";
+import Search from "../components/Authenticated/Search";
 
 const Navigator = () => {
   const { currentUser } = useContext(AuthContext);
@@ -42,7 +43,11 @@ const Navigator = () => {
     return (
       <Pressable
         style={styles.icons}
-        onPress={() => navigation.navigate("AddScreen")}
+        onPress={() =>
+          navigation.navigate("SelectIngrScr", {
+            rhash: "527dfeadacd4ceb0c31d7d7d7ac8e983",
+          })
+        }
       >
         <Ionicons name="cart" size={size} />
       </Pressable>
@@ -70,7 +75,7 @@ const Navigator = () => {
     );
   }
 
-  function AddScreen({ route }) {
+  function SelectIngrScr({ route }) {
     return (
       <SafeAreaView
         style={{
@@ -84,7 +89,7 @@ const Navigator = () => {
           <Separator />
         </View>
         <View style={styles.recipeScr}>
-          <AddIngredient rhash={route.params} />
+          <SelectIngr rhash="403a3fb58013a814fa09d86eebeb2a43" />
         </View>
       </SafeAreaView>
     );
@@ -120,7 +125,7 @@ const Navigator = () => {
         <Tab.Screen name="Search" component={SearchScreen} />
         <Tab.Screen name="Favorites" component={FavoritesScreen} />
         <Tab.Screen name="Shopping" component={ShoppingListScreen} />
-        <Tab.Screen name="AddScreen" component={AddScreen} />
+        <Tab.Screen name="SelectIngrScr" component={SelectIngrScr} />
       </Tab.Navigator>
     );
   }

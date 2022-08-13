@@ -9,15 +9,15 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Share from "./Share";
+import Sharing from "./Sharing";
 import SetFavorite from "./SetFavorite";
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <ImageBackground source={{ uri: item.imageUrl }} style={styles.img} />
     <Text style={[styles.label, textColor]}>{item.label}</Text>
     <View style={styles.container}>
-      <Share url={item.shareAs} title={item.label} />
+      <Sharing url={item.shareAs} title={item.label} />
+      <SetFavorite rhash={item.rhash} />
     </View>
   </TouchableOpacity>
 );
@@ -56,12 +56,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 0.75,
     marginTop: StatusBar.currentHeight || 0,
-    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
   },
   item: {
     padding: 10,
     marginVertical: 5,
-    marginHorizontal: 5,
+    marginLeft: 10,
     width: 350,
     alignSelf: "center",
   },

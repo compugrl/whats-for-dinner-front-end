@@ -40,8 +40,7 @@ const Search = () => {
   const getRecipes = async (query) => {
     try {
       const result = await axios.get(`${kBaseUrl}?${query}`);
-      console.log(result);
-      setSearchResults(result.data);
+      setSearchResults(result.data.map(searchResultsToJson));
       setIsSearchCollapsed(true);
       setIsResultCollapsed(false);
     } catch (err) {
@@ -83,7 +82,6 @@ const Search = () => {
       queryStr = queryStr + `&cuisine=${cuisine}`;
     }
 
-    console.log(queryStr);
     getRecipes(queryStr);
   };
 
@@ -93,7 +91,7 @@ const Search = () => {
   };
 
   const handleRecipe = (rhash) => {
-    console.log(`Recipe: ${rhash}`);
+    console.log(`Recipe selected: ${rhash}`);
   };
 
   return (
@@ -178,13 +176,13 @@ const Search = () => {
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.rList}>
+        <View style={styles.rList}>
           <RecipeList
             style={styles.rList}
             recipes={searchResults}
             onSelectRecipe={handleRecipe}
           />
-        </ScrollView>
+        </View>
       </Collapsible>
     </SafeAreaView>
   );

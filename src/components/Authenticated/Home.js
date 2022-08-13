@@ -12,9 +12,10 @@ import {
   SafeAreaView,
   StatusBar,
   TouchableOpacity,
+  Linking,
 } from "react-native";
 import axios from "axios";
-import { format } from "date-fns";
+import moment from "moment";
 import Sharing from "./Sharing";
 import ViewRecipe from "./ViewRecipe";
 import { useNavigation } from "@react-navigation/native";
@@ -38,7 +39,7 @@ const recipeApiToJson = (recipe) => {
 };
 
 const Item = ({ item, onPress }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item]}>
+  <TouchableOpacity onPress={onPress} style={[styles.item]} type="SECONDARY">
     <View style={styles.rList}>
       <Text style={styles.mDate}>{item.menuDate}</Text>
       <Text style={[styles.label]}>{item.label}</Text>
@@ -47,7 +48,7 @@ const Item = ({ item, onPress }) => (
 );
 
 const Home = () => {
-  const today = format(new Date(), "MMM dd yyyy");
+  const today = moment().format("MMM DD yyyy");
   const navigation = useNavigation();
   const { currentUser } = useContext(AuthContext);
   const uid = currentUser.uid;
@@ -86,40 +87,6 @@ const Home = () => {
     setRecipeData(newRecipes);
   };
 
-  const renderItem = ({ item }) => {
-    if (item.label === "No menu item") {
-      return (
-        <View style={styles.container}>
-          <Item item={item} onPress={() => Alert.alert("No menu item")} />
-        </View>
-      );
-    } else {
-      markedDatesArray.push({
-        date: item.menuDate,
-        dots: [
-          {
-            color: "#160F29",
-            selectedColor: "#160F29",
-          },
-        ],
-      });
-      return (
-        <View style={styles.container}>
-          <Item
-            item={item}
-            onPress={function () {
-              setSelectedSA(item.shareAs);
-              console.log("Url sent: ", selectedSA);
-              navigation.dispatch(
-                StackActions.push("RecipeScreen", { shareAs: selectedSA })
-              );
-            }}
-          />
-        </View>
-      );
-    }
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.datePicker}>
@@ -146,7 +113,38 @@ const Home = () => {
       <View style={styles.rList}>
         <FlatList
           data={recipeData}
-          renderItem={renderItem}
+          renderItem={({ item }) => {
+            if (item.label === "No menu item") {
+              return (
+                <View style={styles.container}>
+                  <Item
+                    item={item}
+                    onPress={() => Alert.alert("No menu item")}
+                  />
+                </View>
+              );
+            } else {
+              markedDatesArray.push({
+                date: item.menuDate,
+                dots: [
+                  {
+                    color: "#160F29",
+                    selectedColor: "#160F29",
+                  },
+                ],
+              });
+              return (
+                <View style={styles.container}>
+                  <Item
+                    item={item}
+                    onPress={async () => {
+                      await Linking.openURL(item.shareAs);
+                    }}
+                  />
+                </View>
+              );
+            }
+          }}
           keyExtractor={(item) => item.rhash}
           extraData={selectedSA}
         />
@@ -172,8 +170,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   img: {
-    width: 150,
-    height: 150,
+    width: 100,
+    height: 100,
     margin: 20,
     resizeMode: "contain",
   },
