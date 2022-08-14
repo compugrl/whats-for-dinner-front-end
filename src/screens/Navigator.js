@@ -17,8 +17,8 @@ import ShoppingListScreen from "../screens/ShoppingListScreen";
 
 import ProfileScreen from "../screens/ProfileScreen";
 import ViewRecipe from "../components/Authenticated/ViewRecipe";
-import SelectIngr from "../components/Authenticated/SelectIngr";
-import SelectList from "../components/Authenticated/SelectIngr";
+import GetIngr from "../components/Authenticated/GetIngr";
+import SelectList from "../components/Authenticated/GetIngr";
 import Search from "../components/Authenticated/Search";
 
 const Navigator = () => {
@@ -44,7 +44,7 @@ const Navigator = () => {
       <Pressable
         style={styles.icons}
         onPress={() =>
-          navigation.navigate("SelectIngrScr", {
+          navigation.navigate("GetIngrScr", {
             rhash: "527dfeadacd4ceb0c31d7d7d7ac8e983",
           })
         }
@@ -75,7 +75,7 @@ const Navigator = () => {
     );
   }
 
-  function SelectIngrScr({ route }) {
+  function GetIngrScr({ route }) {
     return (
       <SafeAreaView
         style={{
@@ -89,7 +89,7 @@ const Navigator = () => {
           <Separator />
         </View>
         <View style={styles.recipeScr}>
-          <SelectIngr rhash="403a3fb58013a814fa09d86eebeb2a43" />
+          <GetIngr rhash="403a3fb58013a814fa09d86eebeb2a43" />
         </View>
       </SafeAreaView>
     );
@@ -125,7 +125,7 @@ const Navigator = () => {
         <Tab.Screen name="Search" component={SearchScreen} />
         <Tab.Screen name="Favorites" component={FavoritesScreen} />
         <Tab.Screen name="Shopping" component={ShoppingListScreen} />
-        <Tab.Screen name="SelectIngrScr" component={SelectIngrScr} />
+        <Tab.Screen name="GetIngrScr" component={GetIngrScr} />
       </Tab.Navigator>
     );
   }

@@ -42,7 +42,6 @@ const GetFaves = () => {
       if (result === []) {
         return "No favorites found", result;
       } else {
-        console.log("Start :", result.data);
         setFaveData(result.data);
       }
     };

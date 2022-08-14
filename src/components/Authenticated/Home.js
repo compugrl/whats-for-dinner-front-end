@@ -57,11 +57,13 @@ const Home = () => {
   const [selectedSA, setSelectedSA] = useState(null);
   const [selectedLabel, setSelectedLabel] = useState(null);
 
-  const getMenuItems = async () => {
+  const getMenuItems = async (newVal) => {
     const result = await axios(
-      `${kBaseUrl}/user/${uid}/date?start_date=${dateVal}`
+      `${kBaseUrl}/user/${uid}/date?start_date=${newVal}`
     );
-    return result.data.map(recipeApiToJson);
+    const res = result.data.map(recipeApiToJson);
+    setRecipeData(res);
+    return res;
   };
 
   useEffect(() => {
@@ -80,11 +82,8 @@ const Home = () => {
     val = val.toString();
     const newVal = val.slice(4, 16).trim();
     console.log(`newVal: ${newVal}`);
+    const newRecipes = getMenuItems(newVal);
     setDate(newVal);
-    console.log("Date after set state: ", dateVal);
-    const newRecipes = getMenuItems();
-    console.log(`New Recipes: ${newRecipes}`);
-    setRecipeData(newRecipes);
   };
 
   return (
@@ -92,7 +91,7 @@ const Home = () => {
       <View style={styles.datePicker}>
         <CalendarStrip
           scrollable
-          startingDate={new Date()}
+          startingDate={moment().format("MMM DD yyyy")}
           style={{ height: 150, paddingTop: 20, paddingBottom: 20 }}
           calendarColor={"#246A73"}
           calendarHeaderStyle={{ color: "#F3DFC1" }}

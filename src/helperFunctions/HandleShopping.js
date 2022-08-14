@@ -1,5 +1,5 @@
 import React, { useReducer, useState } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
@@ -73,6 +73,39 @@ function DeleteIngredient({ id, uid }) {
   );
 }
 
+function AddToList({ uid, foodList }) {
+  console.log("List received: ", foodList);
+  const addFoods = (uid, foodList) => {
+    foodList.forEach(async (food) => {
+      const requestBody = {
+        ingredient: food,
+        completed: false,
+      };
+
+      try {
+        const response = await axios.post(`${kBaseUrl}/${uid}`, requestBody);
+        return response;
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  };
+
+  const onAdd = () => {
+    addFoods(uid, foodList).then((added) => {
+      console.log(id, "Ingredients added: ", foodList);
+    });
+  };
+
+  return (
+    <View style={styles.buttonStyle}>
+      <TouchableOpacity onPress={onAdd} title="Add">
+        <Text>Add to Shopping List</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   buttonStyle: {
     width: 50,
@@ -82,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { SetComplete, DeleteIngredient };
+export { SetComplete, AddToList, DeleteIngredient };
