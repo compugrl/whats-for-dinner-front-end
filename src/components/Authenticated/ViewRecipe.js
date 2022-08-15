@@ -1,39 +1,24 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { WebView } from "react-native-webview";
-import React, { Component, useState } from "react";
-import { StyleSheet, Pressable } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { Linking, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-let shareAs = "";
-
-class RecipeView extends Component {
-  render() {
-    console.log("Passed to webview: " + this.props.url);
-    return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <WebView source={{ uri: this.props.url }} />
-      </SafeAreaView>
-    );
-  }
-}
-
-function ViewRecipe({ recipe }) {
+function ViewRecipe({ id, label, rhash, shareAs }) {
   const navigation = useNavigation();
-  const [share, setShare] = useState(recipe.shareAs);
-  const [rhash, setRhash] = useState(recipe.rhash);
+  const [share, setShare] = useState(shareAs);
+  const [hash, setRhash] = useState(rhash);
+  const [rId, setId] = useState(id);
+  const [rLabel, setLabel] = useState(label);
 
-  console.log("Url: ", share);
-  console.log("Hash: ", rhash);
-  return <RecipeView url={share} />;
+  return (
+    <SafeAreaView>
+      <View>
+        {async () => {
+          await Linking.openURL(url);
+        }}
+      </View>
+    </SafeAreaView>
+  );
 }
-
-const styles = StyleSheet.create({
-  buttonStyle: {
-    width: 50,
-    height: 50,
-    margin: 5,
-  },
-});
 
 export default ViewRecipe;

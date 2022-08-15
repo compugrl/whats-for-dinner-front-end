@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import axios from "axios";
+import { StackActions } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 
 const kBaseUrl = "https://wfd-back-end.herokuapp.com/ur";
@@ -24,6 +26,7 @@ const Item = ({ item, onPress }) => (
 const GetFaves = () => {
   const { currentUser } = useContext(AuthContext);
   const uid = currentUser.uid;
+  const navigation = useNavigation();
   const [faveData, setFaveData] = useState([]);
 
   const getFavorites = async () => {
@@ -53,8 +56,24 @@ const GetFaves = () => {
       <View style={styles.container}>
         <Item
           item={item}
-          onPress={async () => {
-            await Linking.openURL(item.shareAs);
+          onPress={function () {
+            // console.log(
+            //   "Recipe sent from fave: ",
+            //   item.shareAs,
+            //   item.label,
+            //   item.id,
+            //   item.rhash,
+            //   item.menuDate
+            // );
+            navigation.dispatch(
+              StackActions.push("RecipeTabs", {
+                shareAs: item.shareAs,
+                label: item.label,
+                rhash: item.rhash,
+                id: item.id,
+                menuDate: item.menuDate,
+              })
+            );
           }}
         />
       </View>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
   FlatList,
-  ImageBackground,
+  RefreshControl,
   SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -26,6 +27,10 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
+
 const ShoppingList = () => {
   const { currentUser } = useContext(AuthContext);
   const uid = currentUser.uid;
@@ -33,6 +38,12 @@ const ShoppingList = () => {
   const size = 48;
   const [shoppingData, setShoppingData] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   useEffect(() => {
     const loadShoppingList = async () => {
@@ -63,11 +74,19 @@ const ShoppingList = () => {
 
   return (
     <SafeAreaView>
+      <Text style={styles.refresh}>Pull down to Refresh</Text>
       <FlatList
         data={shoppingData}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         extraData={selectedId}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            colors={["256A73", "#160F29"]}
+            onRefresh={onRefresh}
+          />
+        }
       />
     </SafeAreaView>
   );
@@ -96,10 +115,23 @@ const styles = StyleSheet.create({
     backgroundColor: "whitesmoke",
     textAlign: "center",
     color: "#246A73",
-    width: 250,
+    width: "90%",
     height: 35,
     margin: 10,
     fontSize: 20,
+  },
+  refresh: {
+    marginVertical: 10,
+    flex: 0.15,
+    paddingTop: 2,
+    backgroundColor: "#160F29",
+    color: "#F3DFC1",
+    fontSize: 20,
+    width: "100%",
+    height: "80%",
+    alignContent: "center",
+    justifyContent: "center",
+    alignSelf: "center",
   },
 });
 

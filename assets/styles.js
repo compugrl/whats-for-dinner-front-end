@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { StatusBar } from "react-native";
 
 export const styles = StyleSheet.create({
   buttonStyle: {
@@ -10,20 +11,33 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
     margin: 20,
   },
+  completed: {
+    textDecorationLine: "line-through",
+  },
   container: {
     flex: 1,
     justifyContent: "space-around",
-    fontSize: 20,
-    paddingTop: 30,
-  },
-  login: {
-    flex: 0.75,
-    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
     alignSelf: "center",
-    backgroundColor: "#246A73",
-    width: 500,
+    fontSize: 20,
+    marginTop: StatusBar.currentHeight || 0,
+  },
+  datePicker: {
+    flex: 1,
+    width: 375,
+  },
+  icons: {
+    marginLeft: 20,
+  },
+  img: {
+    width: 100,
+    height: 100,
     margin: 20,
-    padding: 5,
+    resizeMode: "contain",
+  },
+  incomplete: {
+    textDecorationLine: "none",
   },
   input: {
     flex: 0.25,
@@ -34,16 +48,58 @@ export const styles = StyleSheet.create({
     height: 25,
     margin: 10,
   },
-  img: {
+  item: {
+    padding: 5,
+    marginVertical: 5,
+    width: 350,
     alignSelf: "center",
-    width: 150,
-    height: 150,
+  },
+  label: {
+    textAlignVertical: "top",
+    fontSize: 20,
+    marginHorizontal: 5,
+    width: 175,
+  },
+  login: {
+    flex: 0.75,
+    justifyContent: "center",
+    alignSelf: "center",
+    backgroundColor: "#246A73",
+    width: 500,
     margin: 20,
+    padding: 5,
   },
-  completed: {
-    textDecorationLine: "line-through",
+  mDate: {
+    marginRight: 10,
+    fontSize: 20,
   },
-  incomplete: {
-    textDecorationLine: "none",
+  recipeScr: {
+    flex: 1,
+    justifyContent: "space-between",
+    alignContent: "center",
+  },
+  rList: {
+    flex: 2,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: 400,
+    justifyContent: "flex-start",
+  },
+  separator: {
+    marginVertical: 20,
+    width: "100%",
+    alignSelf: "center",
+    borderBottomColor: "#246A73",
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  titleText: {
+    textAlign: "left",
+    fontSize: 20,
+  },
+  topBar: {
+    flex: 0.25,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignContent: "center",
   },
 });

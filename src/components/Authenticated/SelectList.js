@@ -10,30 +10,59 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { AddToList } from "../../helperFunctions/HandleShopping";
+import ShoppingList from "./ShoppingList";
 
 const SelectList = ({ items }) => {
   const { currentUser } = useContext(AuthContext);
   const uid = currentUser.uid;
-  let list = [];
   const size = 48;
-  const [selected, setSelected] = useState(false);
-  const [foodList, setFoodList] = useState([]);
+  const [selectedId, setSelectedId] = useState(null);
+  let list = [];
+  let foodObj = {};
   const Separator = () => <View style={styles.separator} />;
 
-  const onAdd = () => {
-    setFoodList(list);
-    console.log("Final List: ", list);
-  };
+  function onAdd() {
+    //temp demo data
+    const kBaseUrl = `https://wfd-back-end.herokuapp.com/shopping_list`;
+    const uid = "plfIcS8oVTPc83GfMWg6qlbcOAj1";
+    const foodList = [
+      {
+        food: "4 calamari tubes",
+        id: "a4r2vakasocf1ramqxxzobdz3gir",
+      },
+      {
+        food: "150 g rice vermicelli",
+        id: "bkwbi4gbu7k75ha7ad8eralgwvlk",
+      },
+    ];
 
-  const Item = ({ item, onPress }) => (
-    <TouchableOpacity onPress={onPress} style={[styles.item]}>
-      <View style={styles.container}>
-        <Text style={[styles.label]}>{item.food}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+    foodList.forEach(async (element) => {
+      const requestBody = {
+        ingredient: element.food,
+        completed: false,
+      };
+
+      try {
+        const response = await axios.post(`${kBaseUrl}/${uid}`, requestBody);
+        return Alert.alert("Items added!");
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  }
+
+  function Item({ item, onPress }) {
+    return (
+      <TouchableOpacity onPress={onPress} style={styles.item}>
+        <View style={styles.container}>
+          <Text style={styles.label}>{item.food}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -46,10 +75,14 @@ const SelectList = ({ items }) => {
                 <Item
                   item={item}
                   onPress={function () {
-                    if (list.includes(item.food)) {
+                    foodObj = {
+                      id: item.id,
+                      food: item.food,
+                    };
+                    if (list.includes(foodObj)) {
                       console.log("Item already in list");
                     } else {
-                      list.push(item.food);
+                      list.push(foodObj);
                     }
                   }}
                 />
@@ -57,7 +90,6 @@ const SelectList = ({ items }) => {
             );
           }}
           keyExtractor={(item) => item.id}
-          extraData={selected}
         />
         <View style={styles.item}>
           <TouchableOpacity onPress={onAdd} style={styles.button}>
@@ -65,8 +97,6 @@ const SelectList = ({ items }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <Separator />
-      <Text style={styles.item}>Items to Add</Text>
     </SafeAreaView>
   );
 };

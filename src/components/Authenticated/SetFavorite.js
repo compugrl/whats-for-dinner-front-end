@@ -1,29 +1,30 @@
 import React, { useContext, useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
 const kBaseUrl = `https://wfd-back-end.herokuapp.com`;
 
 let newFave = "";
 
-function SetFavorite({ rhash, shareAs, label, imageUrl }) {
+function SetFavorite() {
   const { currentUser } = useContext(AuthContext);
   const uid = currentUser.uid;
   const [favorite, SetFavoriteStatus] = useState(false);
   const [id, setId] = useState(null);
   let iconName;
   const size = 48;
+  let doesExist = false;
   iconName = favorite ? "star" : "star-outline";
 
   const addRecipe = async (rhash, shareAs, label, imageUrl) => {
     try {
       let requestBody = {
-        rhash: rhash,
-        label: label,
-        shareAs: shareAs,
-        image_url: imageUrl,
+        rhash: { rhash },
+        label: { label },
+        shareAs: { shareAs },
+        image_url: { imageUrl },
       };
 
       const res1 = await axios.post(`${kBaseUrl}/recipes`, requestBody);
@@ -42,7 +43,7 @@ function SetFavorite({ rhash, shareAs, label, imageUrl }) {
       const res2 = await axios.post(`${kBaseUrl}/ur`, requestBody);
       console.log("Res 2: ", res2);
       setId(res2.data.user_recipe.id);
-      console.log(id);
+      console.log("Id: ", id);
       return res2;
     } catch (err) {
       console.log(err);

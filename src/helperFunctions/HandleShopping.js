@@ -73,12 +73,12 @@ function DeleteIngredient({ id, uid }) {
   );
 }
 
-function AddToList({ uid, foodList }) {
+function AddToList({ uid }) {
   console.log("List received: ", foodList);
   const addFoods = (uid, foodList) => {
-    foodList.forEach(async (food) => {
+    foodList.forEach(async (element) => {
       const requestBody = {
-        ingredient: food,
+        ingredient: element.food,
         completed: false,
       };
 

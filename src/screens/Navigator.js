@@ -1,9 +1,19 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Ionicons } from "@expo/vector-icons";
-import { Image, Pressable, SafeAreaView, StyleSheet, View } from "react-native";
+import * as WebBrowser from "expo-web-browser";
+import {
+  Pressable,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Welcome from "../components/Unauthenticated/Welcome";
@@ -12,84 +22,74 @@ import SignUp from "../components/Unauthenticated/SignUp";
 
 import HomeScreen from "../screens/HomeScreen";
 import SearchScreen from "./SearchScreen";
-import FavoritesScreen from "../screens/FavoritesScreen";
 import ShoppingListScreen from "../screens/ShoppingListScreen";
 
 import ProfileScreen from "../screens/ProfileScreen";
-import ViewRecipe from "../components/Authenticated/ViewRecipe";
 import GetIngr from "../components/Authenticated/GetIngr";
+import SetFavorite from "../components/Authenticated/SetFavorite";
 import SelectList from "../components/Authenticated/GetIngr";
 import Search from "../components/Authenticated/Search";
+import GetFaves from "../components/Authenticated/GetFaves";
+import SetMenu from "../components/Authenticated/SetMenu";
 
-const Navigator = () => {
+function Navigator() {
   const { currentUser } = useContext(AuthContext);
+  const uid = currentUser.uid;
+
+  const navigation = useNavigation();
   const Separator = () => <View style={styles.separator} />;
-  const Tab = createMaterialTopTabNavigator();
+  const size = 48;
+  const TopTab = createMaterialTopTabNavigator();
+  const BtmTab = createBottomTabNavigator();
   const Stack = createNativeStackNavigator();
 
   function MyBackButton() {
-    const navigation = useNavigation();
-    const size = 48;
     return (
-      <Pressable style={styles.icons} onPress={() => navigation.goBack()}>
+      <Pressable
+        style={styles.icons}
+        onPress={() => navigation.navigate("Home")}
+      >
         <Ionicons name="arrow-back" size={size} />
       </Pressable>
     );
   }
 
-  function MyShopButton() {
-    const navigation = useNavigation();
-    const size = 48;
+  function FavoritesScreen() {
     return (
-      <Pressable
-        style={styles.icons}
-        onPress={() =>
-          navigation.navigate("GetIngrScr", {
-            rhash: "527dfeadacd4ceb0c31d7d7d7ac8e983",
-          })
-        }
-      >
-        <Ionicons name="cart" size={size} />
-      </Pressable>
-    );
-  }
-
-  function RecipeScreen({ route }) {
-    return (
-      <SafeAreaView
-        style={{
-          flex: 2,
-          justifyContent: "space-around",
-          alignItems: "flex-start",
-        }}
-      >
-        <View style={styles.topBar}>
-          <MyBackButton />
-          <MyShopButton />
-          <Separator />
-        </View>
-        <View style={styles.recipeScr}>
-          <ViewRecipe recipe={route.params} />
+      <SafeAreaView style={styles.container}>
+        <View>
+          <GetFaves />
         </View>
       </SafeAreaView>
     );
   }
 
-  function GetIngrScr({ route }) {
+  function RecipeScreen() {
+    return null;
+  }
+
+  function GetIngrScr() {
+    //temp demo data
+    const rhash = "07baa24e5b67f52e3642b79c34c0fe19";
     return (
-      <SafeAreaView
-        style={{
-          flex: 2,
-          justifyContent: "space-around",
-          alignItems: "flex-start",
-        }}
-      >
-        <View style={styles.topBar}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.bar}>
           <MyBackButton />
           <Separator />
         </View>
         <View style={styles.recipeScr}>
-          <GetIngr rhash="403a3fb58013a814fa09d86eebeb2a43" />
+          <GetIngr rhash={rhash} />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  function AddToMenu({ route }) {
+    let { id, label } = route.params;
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.bar}>
+          <SetMenu id={id} label={label} />
         </View>
       </SafeAreaView>
     );
@@ -97,7 +97,7 @@ const Navigator = () => {
 
   function HomeTabs() {
     return (
-      <Tab.Navigator
+      <TopTab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ color }) => {
             let iconName;
@@ -121,12 +121,81 @@ const Navigator = () => {
           tabBarShowLabel: false,
         })}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Search" component={SearchScreen} />
-        <Tab.Screen name="Favorites" component={FavoritesScreen} />
-        <Tab.Screen name="Shopping" component={ShoppingListScreen} />
-        <Tab.Screen name="GetIngrScr" component={GetIngrScr} />
-      </Tab.Navigator>
+        <TopTab.Screen name="Home" component={HomeScreen} />
+        <TopTab.Screen name="Search" component={SearchScreen} />
+        <TopTab.Screen name="Favorites" component={FavoritesScreen} />
+        <TopTab.Screen name="Shopping" component={ShoppingListScreen} />
+      </TopTab.Navigator>
+    );
+  }
+
+  function RecipeTabs({ route }) {
+    let { shareAs, menuDate, label, id, rhash } = route.params;
+    return (
+      <BtmTab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color }) => {
+            let iconName;
+            const iconSize = 48;
+
+            if (route.name === "View") {
+              iconName = "open";
+            } else if (route.name === "Shop") {
+              iconName = "cart";
+            } else if (route.name === "SetFave") {
+              iconName = "heart";
+            } else if (route.name === "Menu") iconName = "add-circle-outline";
+            return <Ionicons name={iconName} size={iconSize} color={color} />;
+          },
+          tabBarActiveTintColor: "#246A73",
+          tabBarInactiveTintColor: "#CDC2AE",
+          tabBarShowLabel: false,
+          headerShown: false,
+        })}
+      >
+        <BtmTab.Screen
+          name="View"
+          component={RecipeScreen}
+          options={{
+            tabBarButton: (props) => (
+              <TouchableOpacity
+                {...props}
+                onPress={() => WebBrowser.openBrowserAsync(shareAs)}
+              />
+            ),
+          }}
+        />
+        <BtmTab.Screen
+          name="Shop"
+          component={GetIngrScr}
+          options={{
+            tabBarButton: (props) => (
+              <TouchableOpacity
+                {...props}
+                onPress={() => navigation.navigate("GetIngrScr")}
+              />
+            ),
+          }}
+        />
+        <BtmTab.Screen
+          name="Menu"
+          component={AddToMenu}
+          options={{
+            tabBarButton: (props) => (
+              <TouchableOpacity
+                {...props}
+                onPress={() =>
+                  navigation.navigate("AddToMenu", {
+                    menuDate: menuDate,
+                    id: id,
+                    label: label,
+                  })
+                }
+              />
+            ),
+          }}
+        />
+      </BtmTab.Navigator>
     );
   }
 
@@ -143,42 +212,57 @@ const Navigator = () => {
   function AppStack() {
     return (
       <Stack.Navigator
+        style={styles.icons}
         screenOptions={{
           headerTitle: "What's For Dinner?",
           headerTintColor: "#F3DFC1",
           orientation: "portrait",
           headerStyle: { backgroundColor: "#160F29" },
+          initialRouteName: "HomeTabs",
         }}
       >
         <Stack.Group>
           <Stack.Screen name="HomeTabs" component={HomeTabs} />
         </Stack.Group>
+        <Stack.Group style={styles.icons}>
+          <Stack.Screen name="RecipeTabs" component={RecipeTabs} />
+          <Stack.Screen name="RecipeScreen" component={RecipeScreen} />
+          <Stack.Screen name="GetIngrScr" component={GetIngrScr} />
+          <Stack.Screen name="AddToMenu" component={AddToMenu} />
+        </Stack.Group>
         <Stack.Group screenOptions={{ presentation: "modal" }}>
           <Stack.Screen name="Profile" component={ProfileScreen} />
-          <Stack.Screen name="RecipeScreen" component={RecipeScreen} />
         </Stack.Group>
       </Stack.Navigator>
     );
   }
   return currentUser ? <AppStack /> : <AuthStack />;
-};
+}
 
 const styles = StyleSheet.create({
-  topBar: {
-    flex: 0.25,
-    flexDirection: "row",
-    justifyContent: "space-between",
+  container: {
+    flex: 1,
+    justifyContent: "space-around",
+    alignItems: "center",
     alignContent: "center",
+    alignSelf: "center",
+    fontSize: 20,
+    marginTop: StatusBar.currentHeight || 0,
+  },
+  bar: {
+    flex: 0.1,
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
   recipeScr: {
     flex: 1,
-    justifyContent: "space-between",
-    alignContent: "center",
+    justifyContent: "space-around",
   },
   separator: {
-    marginVertical: 20,
-    width: "100%",
-    alignSelf: "center",
+    flex: 0.2,
+    justifyContent: "flex-start",
+    width: "80%",
+
     borderBottomColor: "#246A73",
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
@@ -187,7 +271,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   icons: {
-    marginLeft: 20,
+    flex: 0.2,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    margin: 20,
+    padding: 50,
   },
 });
 

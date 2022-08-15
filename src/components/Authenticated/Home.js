@@ -1,23 +1,15 @@
 import { useEffect, useState, useContext } from "react";
 import {
   Alert,
-  Button,
   FlatList,
-  Image,
-  ImageBackground,
-  Text,
-  TextInput,
-  View,
-  StyleSheet,
   SafeAreaView,
-  StatusBar,
+  Text,
   TouchableOpacity,
-  Linking,
+  View,
 } from "react-native";
 import axios from "axios";
 import moment from "moment";
-import Sharing from "./Sharing";
-import ViewRecipe from "./ViewRecipe";
+import { styles } from "../../../assets/styles";
 import { useNavigation } from "@react-navigation/native";
 import { StackActions } from "@react-navigation/native";
 import CalendarStrip from "react-native-calendar-strip";
@@ -52,10 +44,10 @@ const Home = () => {
   const navigation = useNavigation();
   const { currentUser } = useContext(AuthContext);
   const uid = currentUser.uid;
-  const [dateVal, setDate] = useState(new Date());
+  const [dateVal, setDate] = useState(moment().format("MMM DD yyyy"));
   const [recipeData, setRecipeData] = useState([]);
-  const [selectedSA, setSelectedSA] = useState(null);
-  const [selectedLabel, setSelectedLabel] = useState(null);
+  const [shareAs, setShareAs] = useState("");
+  const [label, setLabel] = useState("");
 
   const getMenuItems = async (newVal) => {
     const result = await axios(
@@ -81,7 +73,6 @@ const Home = () => {
   const handleDateChange = (val) => {
     val = val.toString();
     const newVal = val.slice(4, 16).trim();
-    console.log(`newVal: ${newVal}`);
     const newRecipes = getMenuItems(newVal);
     setDate(newVal);
   };
@@ -136,8 +127,24 @@ const Home = () => {
                 <View style={styles.container}>
                   <Item
                     item={item}
-                    onPress={async () => {
-                      await Linking.openURL(item.shareAs);
+                    onPress={function () {
+                      console.log(
+                        "Recipe sent from Home: ",
+                        item.shareAs,
+                        item.label,
+                        item.id,
+                        item.rhash,
+                        item.menuDate
+                      );
+                      navigation.dispatch(
+                        StackActions.push("RecipeTabs", {
+                          shareAs: item.shareAs,
+                          label: item.label,
+                          rhash: item.rhash,
+                          id: item.id,
+                          menuDate: item.menuDate,
+                        })
+                      );
                     }}
                   />
                 </View>
@@ -145,51 +152,11 @@ const Home = () => {
             }
           }}
           keyExtractor={(item) => item.rhash}
-          extraData={selectedSA}
+          extraData={{ shareAs }}
         />
       </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
-  },
-  datePicker: {
-    flex: 1,
-    width: 375,
-  },
-  rList: {
-    flex: 2,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: 400,
-    justifyContent: "flex-start",
-  },
-  img: {
-    width: 100,
-    height: 100,
-    margin: 20,
-    resizeMode: "contain",
-  },
-  item: {
-    padding: 5,
-    marginVertical: 5,
-    width: 350,
-    alignSelf: "center",
-  },
-  label: {
-    textAlignVertical: "top",
-    fontSize: 20,
-    marginHorizontal: 5,
-    width: 175,
-  },
-  mDate: {
-    marginRight: 10,
-    fontSize: 20,
-  },
-});
 
 export default Home;
