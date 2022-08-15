@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
+  FlatList,
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -11,18 +11,31 @@ import {
 } from "react-native";
 import axios from "axios";
 import DropDownPicker from "react-native-dropdown-picker";
-import RecipeList from "./RecipeList";
 import Collapsible from "react-native-collapsible";
+import { styles } from "../../../assets/styles";
+import { useNavigation } from "@react-navigation/native";
+import { StackActions } from "@react-navigation/native";
+import { AuthContext } from "../../context/AuthContext";
 
 const cuisineItems = require("./data/cuisineItems.json");
 const kBaseUrl = "https://wfd-back-end.herokuapp.com/search";
+let res = [];
+const Separator = () => <View style={styles.separator} />;
+
+const Item = ({ item, onPress }) => (
+  <TouchableOpacity onPress={onPress} style={styles.item}>
+    <Text style={styles.item}>{item.label}</Text>
+  </TouchableOpacity>
+);
 
 const Search = () => {
+  const navigation = useNavigation();
+  const { currentUser } = useContext(AuthContext);
+  const uid = currentUser.uid;
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(false);
   const [isResultCollapsed, setIsResultCollapsed] = useState(true);
 
   const [searchResults, setSearchResults] = useState([]);
-
   const [items, setItems] = useState(cuisineItems);
   const [open, setOpen] = useState(false);
 
@@ -34,8 +47,8 @@ const Search = () => {
 
   const getRecipes = async (query) => {
     const result = await axios.get(`${kBaseUrl}?${query}`);
-    setSearchResults(result);
-    console.log("Search result state: ", searchResults);
+    res = result.data;
+    setSearchResults(res);
     setIsSearchCollapsed(true);
     setIsResultCollapsed(false);
     return res;
@@ -75,7 +88,7 @@ const Search = () => {
       queryStr = queryStr + `&cuisine=${cuisine}`;
     }
 
-    getRecipes(queryStr);
+    res = getRecipes(queryStr);
   };
 
   const showSearch = () => {
@@ -83,13 +96,30 @@ const Search = () => {
     setIsSearchCollapsed(false);
   };
 
-  const handleRecipe = (rhash) => {
-    console.log(`Recipe: ${rhash}`);
+  const renderItem = ({ item }) => {
+    return (
+      <View style={styles.container}>
+        <Item
+          style={styles.item}
+          item={item}
+          onPress={function () {
+            navigation.dispatch(
+              StackActions.push("RecipeTabs", {
+                shareAs: item.shareAs,
+                label: item.label,
+                rhash: item.rhash,
+              })
+            );
+          }}
+        />
+        <Separator />
+      </View>
+    );
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Collapsible collapsed={isSearchCollapsed} style={styles.container}>
+      <Collapsible collapsed={isSearchCollapsed}>
         <View style={styles.addView}>
           <TextInput
             style={styles.input}
@@ -100,10 +130,10 @@ const Search = () => {
             onChangeText={updateQ}
           />
         </View>
-
-        <Text style={styles.label}>Filter</Text>
-
         <View style={styles.filter}>
+          <Text style={styles.title}>Filters (optional)</Text>
+        </View>
+        <View style={styles.item}>
           <TextInput
             style={styles.input}
             type="TextInput"
@@ -113,7 +143,7 @@ const Search = () => {
             onChangeText={updateExcluded}
           />
         </View>
-        <View style={styles.filter}>
+        <View style={styles.item}>
           <TextInput
             style={styles.input}
             type="Input"
@@ -124,7 +154,7 @@ const Search = () => {
             onChangeText={updateIngrLimit}
           />
         </View>
-        <View style={styles.filter}>
+        <View style={styles.item}>
           <TextInput
             style={styles.input}
             type="Input"
@@ -135,7 +165,7 @@ const Search = () => {
             onChangeText={updateMaxTime}
           />
         </View>
-        <View style={styles.filter}>
+        <View style={styles.item}>
           <DropDownPicker
             open={open}
             value={cuisine}
@@ -156,96 +186,29 @@ const Search = () => {
           />
         </View>
         <View>
-          <TouchableOpacity onPress={buildQuery}>
-            <Text style={styles.label}>Search</Text>
+          <TouchableOpacity style={styles.button} onPress={buildQuery}>
+            <Text style={styles.title}>Search</Text>
           </TouchableOpacity>
         </View>
       </Collapsible>
 
       <Collapsible collapsed={isResultCollapsed} style={styles.container}>
         <View>
-          <TouchableOpacity onPress={showSearch}>
-            <Text style={styles.label}>Open Search</Text>
+          <TouchableOpacity onPress={showSearch} style={styles.button}>
+            <Text style={styles.title}>Back to Search</Text>
           </TouchableOpacity>
         </View>
-
-        <ScrollView style={styles.rList}>
-          <RecipeList
+        <View>
+          <FlatList
             style={styles.rList}
-            recipes={searchResults}
-            onSelectRecipe={handleRecipe}
+            data={res}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.rhash}
           />
-        </ScrollView>
+        </View>
       </Collapsible>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: StatusBar.currentHeight,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    alignSelf: "center",
-  },
-  item: {
-    padding: 10,
-    marginVertical: 5,
-    marginHorizontal: 5,
-    width: 350,
-    alignSelf: "center",
-  },
-  label: {
-    fontSize: 25,
-    margin: 10,
-    width: 175,
-    textAlign: "center",
-  },
-  addView: {
-    flex: 0.25,
-    margin: 10,
-    justifyContent: "center",
-    flexDirection: "row",
-    backgroundColor: "#160F29",
-    color: "#F3DFC1",
-    width: 350,
-  },
-  input: {
-    alignSelf: "center",
-    backgroundColor: "whitesmoke",
-    textAlign: "center",
-    color: "#246A73",
-    width: 275,
-    height: 40,
-    margin: 10,
-    fontSize: 25,
-  },
-  filter: {
-    backgroundColor: "#246A73",
-    flex: 0.25,
-    width: 350,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 15,
-    margin: 5,
-  },
-  rList: {
-    flex: 2,
-    width: 400,
-  },
-  button: {
-    flex: 0.2,
-    borderColor: "#160F29",
-    borderWidth: 2,
-    borderRadius: 10,
-    alignSelf: "center",
-    backgroundColor: "#F3DFC1",
-  },
-  scroll: {
-    flex: 2,
-    width: 400,
-  },
-});
 
 export default Search;

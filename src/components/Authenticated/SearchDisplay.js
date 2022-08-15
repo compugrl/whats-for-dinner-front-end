@@ -1,75 +1,66 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   FlatList,
   SafeAreaView,
-  StatusBar,
-  StyleSheet,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import Sharing from "./Sharing";
-import SetFavorite from "./SetFavorite";
+import { styles } from "../../../assets/styles";
+import { useNavigation } from "@react-navigation/native";
+import { StackActions } from "@react-navigation/native";
+import { AuthContext } from "../../context/AuthContext";
 
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.label, textColor]}>{item.label}</Text>
-    <View style={styles.container}>
-      <Sharing url={item.shareAs} title={item.label} />
-      <SetFavorite rhash={item.rhash} />
-    </View>
+const Item = ({ item, onPress }) => (
+  <TouchableOpacity onPress={onPress} style={styles.item}>
+    <Text style={styles.label}>{item.label}</Text>
   </TouchableOpacity>
 );
 
-const SearchDisplay = (searchObj) => {
+const SearchDisplay = (searchResults) => {
   const [selectedId, setSelectedId] = useState(null);
-  const renderItem = ({ item }) => {
-    const backgroundColor = item.rhash === selectedId ? "#368F8B" : "#246A73";
-    const color = item.rhash === selectedId ? "#246A73" : "#F3DFC1";
+  const navigation = useNavigation();
+  const { currentUser } = useContext(AuthContext);
+  const uid = currentUser.uid;
+  const [recipeData, setRecipeData] = useState([]);
+  const [shareAs, setShareAs] = useState("");
 
+  const renderItem = ({ item }) => {
+    console.log("Data to render: ", JSON.stringify(searchResults));
     return (
       <View style={styles.container}>
         <Item
           item={item}
-          onPress={() => setSelectedId(item.rhash)}
-          backgroundColor={{ backgroundColor }}
-          textColor={{ color }}
+          onPress={function () {
+            console.log(
+              "Recipe sent from search: ",
+              item.shareAs,
+              item.label,
+              item.rhash
+            );
+            navigation.dispatch(
+              StackActions.push("RecipeTabs", {
+                shareAs: item.shareAs,
+                label: item.label,
+                rhash: item.rhash,
+              })
+            );
+          }}
         />
       </View>
     );
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.rList}>
       <FlatList
-        data={searchObj}
+        data={searchResults}
         renderItem={renderItem}
         keyExtractor={(item) => item.rhash}
-        extraData={selectedId}
       />
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 0.75,
-    marginTop: StatusBar.currentHeight || 0,
-    justifyContent: "center",
-    alignContent: "center",
-    alignItems: "center",
-  },
-  item: {
-    padding: 10,
-    marginVertical: 5,
-    marginLeft: 10,
-    width: 350,
-    alignSelf: "center",
-  },
-  label: {
-    fontSize: 20,
-    margin: 10,
-  },
-});
 
 export default SearchDisplay;

@@ -33,7 +33,7 @@ function SetComplete({ id, uid, completed }) {
   };
 
   return (
-    <View style={styles.buttonStyle}>
+    <View style={styles.button}>
       <TouchableOpacity onPress={callSetComplete} title="Complete">
         <Ionicons name={iconName} size={size} color="#160F29" />
       </TouchableOpacity>
@@ -65,7 +65,7 @@ function DeleteIngredient({ id, uid }) {
   };
 
   return (
-    <View style={styles.buttonStyle}>
+    <View style={styles.button}>
       <TouchableOpacity onPress={onDelete} title="Delete">
         <Ionicons name={iconName} size={size} color="#160F29" />
       </TouchableOpacity>
@@ -98,7 +98,7 @@ function AddToList({ uid }) {
   };
 
   return (
-    <View style={styles.buttonStyle}>
+    <View style={styles.button}>
       <TouchableOpacity onPress={onAdd} title="Add">
         <Text>Add to Shopping List</Text>
       </TouchableOpacity>
@@ -107,7 +107,7 @@ function AddToList({ uid }) {
 }
 
 const styles = StyleSheet.create({
-  buttonStyle: {
+  button: {
     width: 50,
     height: 50,
     margin: 5,

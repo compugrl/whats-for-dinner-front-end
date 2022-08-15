@@ -71,7 +71,7 @@ const Profile = () => {
           placeholder={email}
           onChangeText={setEmail}
         />
-        <TouchableOpacity style={styles.buttonStyle} onPress={updateInfo}>
+        <TouchableOpacity style={styles.button} onPress={updateInfo}>
           <Text style={styles.textStyle}>Update</Text>
         </TouchableOpacity>
       </View>
@@ -80,7 +80,7 @@ const Profile = () => {
 };
 
 const styles = StyleSheet.create({
-  buttonStyle: {
+  button: {
     borderColor: "#160F29",
     backgroundColor: "#368F8B",
     color: "#160F29",

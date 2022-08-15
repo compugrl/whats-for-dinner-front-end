@@ -2,12 +2,28 @@ import { StyleSheet } from "react-native";
 import { StatusBar } from "react-native";
 
 export const styles = StyleSheet.create({
-  buttonStyle: {
-    borderColor: "#368F8B",
-    backgroundColor: "#246A73",
+  addView: {
+    flex: 0.5,
+    padding: 10,
+    margin: 10,
+    justifyContent: "center",
+    flexDirection: "row",
+    backgroundColor: "#160F29",
+    color: "#246A73",
+    width: 400,
+  },
+  bar: {
+    flex: 0.25,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignContent: "center",
+  },
+  button: {
+    borderColor: "#160F29",
     borderWidth: 2,
     borderRadius: 10,
-    width: 450,
+    width: "85%",
+    height: 35,
     alignSelf: "center",
     margin: 20,
   },
@@ -25,7 +41,21 @@ export const styles = StyleSheet.create({
   },
   datePicker: {
     flex: 1,
-    width: 375,
+    width: 400,
+  },
+  filter: {
+    backgroundColor: "#F3DFC1",
+    color: "#160F29",
+    fontSize: 20,
+    padding: 5,
+    marginVertical: 5,
+    marginHorizontal: 5,
+    width: 400,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#160F29",
+    borderWidth: 2,
   },
   icons: {
     marginLeft: 20,
@@ -40,25 +70,34 @@ export const styles = StyleSheet.create({
     textDecorationLine: "none",
   },
   input: {
-    flex: 0.25,
     alignSelf: "center",
     backgroundColor: "whitesmoke",
+    textAlign: "center",
     color: "#246A73",
-    width: 400,
-    height: 25,
+    width: "80%",
+    height: 40,
     margin: 10,
+    fontSize: 25,
   },
   item: {
+    backgroundColor: "#246A73",
+    color: "#F3DFC1",
+    fontSize: 20,
     padding: 5,
     marginVertical: 5,
-    width: 350,
+    marginHorizontal: 5,
+    width: 400,
     alignSelf: "center",
+    justifyContent: "space-evenly",
   },
   label: {
     textAlignVertical: "top",
+    textAlign: "left",
     fontSize: 20,
-    marginHorizontal: 5,
+    margin: 10,
     width: 175,
+    textAlign: "center",
+    color: "#F3DFC1",
   },
   login: {
     flex: 0.75,
@@ -72,6 +111,7 @@ export const styles = StyleSheet.create({
   mDate: {
     marginRight: 10,
     fontSize: 20,
+    color: "#F3DFC1",
   },
   recipeScr: {
     flex: 1,
@@ -81,25 +121,19 @@ export const styles = StyleSheet.create({
   rList: {
     flex: 2,
     flexDirection: "row",
-    justifyContent: "space-around",
-    width: 400,
-    justifyContent: "flex-start",
+    width: "100%",
+    margin: 2,
   },
   separator: {
-    marginVertical: 20,
+    marginVertical: 10,
     width: "100%",
     alignSelf: "center",
     borderBottomColor: "#246A73",
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  titleText: {
-    textAlign: "left",
+  title: {
+    textAlign: "center",
     fontSize: 20,
-  },
-  topBar: {
-    flex: 0.25,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignContent: "center",
+    color: "#160F29",
   },
 });

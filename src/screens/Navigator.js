@@ -10,7 +10,6 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -27,11 +26,8 @@ import ShoppingListScreen from "../screens/ShoppingListScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import GetIngr from "../components/Authenticated/GetIngr";
 import SetFavorite from "../components/Authenticated/SetFavorite";
-import SelectList from "../components/Authenticated/GetIngr";
-import Search from "../components/Authenticated/Search";
 import GetFaves from "../components/Authenticated/GetFaves";
 import SetMenu from "../components/Authenticated/SetMenu";
-import RecipeList from "../components/Authenticated/RecipeList";
 
 function Navigator() {
   const { currentUser } = useContext(AuthContext);
@@ -69,9 +65,8 @@ function Navigator() {
     return null;
   }
 
-  function GetIngrScr() {
-    //temp demo data
-    const rhash = "07baa24e5b67f52e3642b79c34c0fe19";
+  function GetIngrScr({ route }) {
+    let { rhash } = route.params;
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.bar}>
@@ -80,6 +75,17 @@ function Navigator() {
         </View>
         <View style={styles.recipeScr}>
           <GetIngr rhash={rhash} />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  function SetFave({ route }) {
+    let { rhash, label, shareAs } = route.params;
+    return (
+      <SafeAreaView style={styles.container}>
+        <View>
+          <SetFavorite rhash={rhash} label={label} shareAs={shareAs} />
         </View>
       </SafeAreaView>
     );
@@ -158,7 +164,7 @@ function Navigator() {
         })}
       >
         <BtmTab.Screen
-          style={styles.titleText}
+          style={styles.title}
           name="View"
           component={RecipeScreen}
           options={{
@@ -177,7 +183,27 @@ function Navigator() {
             tabBarButton: (props) => (
               <TouchableOpacity
                 {...props}
-                onPress={() => navigation.navigate("GetIngrScr")}
+                onPress={() =>
+                  navigation.navigate("GetIngrScr", { rhash: rhash })
+                }
+              />
+            ),
+          }}
+        />
+        <BtmTab.Screen
+          name="SetFave"
+          component={SetFave}
+          options={{
+            tabBarButton: (props) => (
+              <TouchableOpacity
+                {...props}
+                onPress={() =>
+                  navigation.navigate("SetFave", {
+                    rhash: rhash,
+                    shareAs: shareAs,
+                    label: label,
+                  })
+                }
               />
             ),
           }}
@@ -234,6 +260,7 @@ function Navigator() {
           <Stack.Screen name="RecipeScreen" component={RecipeScreen} />
           <Stack.Screen name="GetIngrScr" component={GetIngrScr} />
           <Stack.Screen name="AddToMenu" component={AddToMenu} />
+          <Stack.Screen name="SetFave" component={SetFave} />
         </Stack.Group>
         <Stack.Group screenOptions={{ presentation: "modal" }}>
           <Stack.Screen name="Profile" component={ProfileScreen} />
@@ -270,9 +297,10 @@ const styles = StyleSheet.create({
     borderBottomColor: "#246A73",
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  titleText: {
+  title: {
     textAlign: "left",
     fontSize: 20,
+    color: "#160F29",
   },
   icons: {
     flex: 0.25,

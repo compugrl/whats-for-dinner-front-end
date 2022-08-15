@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 5,
     marginHorizontal: 5,
-    width: "100%",
+    width: "95%",
     alignSelf: "center",
   },
   label: {
