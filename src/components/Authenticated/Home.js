@@ -109,7 +109,7 @@ const Home = () => {
                 <View style={styles.container}>
                   <Item
                     item={item}
-                    onPress={() => Alert.alert("No menu item")}
+                    onPress={() => navigation.navigate("Search")}
                   />
                 </View>
               );
