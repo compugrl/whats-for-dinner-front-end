@@ -18,13 +18,12 @@ function SetFavorite() {
   let doesExist = false;
   iconName = favorite ? "star" : "star-outline";
 
-  const addRecipe = async (rhash, shareAs, label, imageUrl) => {
+  const addRecipe = async (rhash, shareAs, label) => {
     try {
       let requestBody = {
         rhash: { rhash },
         label: { label },
         shareAs: { shareAs },
-        image_url: { imageUrl },
       };
 
       const res1 = await axios.post(`${kBaseUrl}/recipes`, requestBody);
@@ -50,8 +49,8 @@ function SetFavorite() {
     }
   };
 
-  const setNewFave = async (rhash, shareAs, label, imageUrl, uid) => {
-    addRecipe(rhash, shareAs, label, imageUrl);
+  const setNewFave = async (rhash, shareAs, label, uid) => {
+    addRecipe(rhash, shareAs, label);
     addUR(rhash, uid);
 
     try {
@@ -63,7 +62,7 @@ function SetFavorite() {
   };
 
   const onSetFave = () => {
-    setNewFave(rhash, shareAs, label, imageUrl, uid).then((newFave) => {
+    setNewFave(rhash, shareAs, label, uid).then((newFave) => {
       SetFavoriteStatus(!favorite);
     });
   };

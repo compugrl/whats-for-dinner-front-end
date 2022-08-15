@@ -19,15 +19,8 @@ const kBaseUrl = "https://wfd-back-end.herokuapp.com/ur";
 const markedDatesArray = [];
 
 const recipeApiToJson = (recipe) => {
-  const {
-    rhash,
-    label,
-    image_url: imageUrl,
-    shareAs,
-    id,
-    menu_date: menuDate,
-  } = recipe;
-  return { rhash, label, imageUrl, shareAs, id, menuDate };
+  const { rhash, label, shareAs, id, menu_date: menuDate } = recipe;
+  return { rhash, label, shareAs, id, menuDate };
 };
 
 const Item = ({ item, onPress }) => (
@@ -47,7 +40,6 @@ const Home = () => {
   const [dateVal, setDate] = useState(moment().format("MMM DD yyyy"));
   const [recipeData, setRecipeData] = useState([]);
   const [shareAs, setShareAs] = useState("");
-  const [label, setLabel] = useState("");
 
   const getMenuItems = async (newVal) => {
     const result = await axios(
@@ -128,14 +120,14 @@ const Home = () => {
                   <Item
                     item={item}
                     onPress={function () {
-                      console.log(
-                        "Recipe sent from Home: ",
-                        item.shareAs,
-                        item.label,
-                        item.id,
-                        item.rhash,
-                        item.menuDate
-                      );
+                      // console.log(
+                      //   "Recipe sent from Home: ",
+                      //   item.shareAs,
+                      //   item.label,
+                      //   item.id,
+                      //   item.rhash,
+                      //   item.menuDate
+                      // );
                       navigation.dispatch(
                         StackActions.push("RecipeTabs", {
                           shareAs: item.shareAs,

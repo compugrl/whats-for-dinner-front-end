@@ -17,11 +17,6 @@ import Collapsible from "react-native-collapsible";
 const cuisineItems = require("./data/cuisineItems.json");
 const kBaseUrl = "https://wfd-back-end.herokuapp.com/search";
 
-const searchResultsToJson = (recipe) => {
-  const { shareAs, label, image_url: imageUrl, rhash } = recipe;
-  return { shareAs, label, imageUrl, rhash };
-};
-
 const Search = () => {
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(false);
   const [isResultCollapsed, setIsResultCollapsed] = useState(true);
@@ -38,14 +33,12 @@ const Search = () => {
   const [cuisine, setCuisine] = useState([]);
 
   const getRecipes = async (query) => {
-    try {
-      const result = await axios.get(`${kBaseUrl}?${query}`);
-      setSearchResults(result.data.map(searchResultsToJson));
-      setIsSearchCollapsed(true);
-      setIsResultCollapsed(false);
-    } catch (err) {
-      console.log(err);
-    }
+    const result = await axios.get(`${kBaseUrl}?${query}`);
+    setSearchResults(result);
+    console.log("Search result state: ", searchResults);
+    setIsSearchCollapsed(true);
+    setIsResultCollapsed(false);
+    return res;
   };
 
   const updateQ = (q) => {
@@ -91,7 +84,7 @@ const Search = () => {
   };
 
   const handleRecipe = (rhash) => {
-    console.log(`Recipe selected: ${rhash}`);
+    console.log(`Recipe: ${rhash}`);
   };
 
   return (
@@ -176,13 +169,13 @@ const Search = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.rList}>
+        <ScrollView style={styles.rList}>
           <RecipeList
             style={styles.rList}
             recipes={searchResults}
             onSelectRecipe={handleRecipe}
           />
-        </View>
+        </ScrollView>
       </Collapsible>
     </SafeAreaView>
   );

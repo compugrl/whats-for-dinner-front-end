@@ -19,15 +19,8 @@ const kBaseUrl = "https://wfd-back-end.herokuapp.com/ur";
 const markedDatesArray = [];
 
 const recipeApiToJson = (recipe) => {
-  const {
-    rhash,
-    label,
-    image_url: imageUrl,
-    shareAs,
-    id,
-    menu_date: menuDate,
-  } = recipe;
-  return { rhash, label, imageUrl, shareAs, id, menuDate };
+  const { rhash, label, shareAs, id, menu_date: menuDate } = recipe;
+  return { rhash, label, shareAs, id, menuDate };
 };
 
 const SetMenu = ({ id, label }) => {

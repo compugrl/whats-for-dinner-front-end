@@ -31,6 +31,7 @@ import SelectList from "../components/Authenticated/GetIngr";
 import Search from "../components/Authenticated/Search";
 import GetFaves from "../components/Authenticated/GetFaves";
 import SetMenu from "../components/Authenticated/SetMenu";
+import RecipeList from "../components/Authenticated/RecipeList";
 
 function Navigator() {
   const { currentUser } = useContext(AuthContext);
@@ -133,12 +134,15 @@ function Navigator() {
     let { shareAs, menuDate, label, id, rhash } = route.params;
     return (
       <BtmTab.Navigator
+        style={styles.bar}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ color }) => {
             let iconName;
             const iconSize = 48;
 
-            if (route.name === "View") {
+            if (route.name === "Home") {
+              iconName = "ios-home";
+            } else if (route.name === "View") {
               iconName = "open";
             } else if (route.name === "Shop") {
               iconName = "cart";
@@ -149,11 +153,12 @@ function Navigator() {
           },
           tabBarActiveTintColor: "#246A73",
           tabBarInactiveTintColor: "#CDC2AE",
-          tabBarShowLabel: false,
+          tabBarShowLabel: true,
           headerShown: false,
         })}
       >
         <BtmTab.Screen
+          style={styles.titleText}
           name="View"
           component={RecipeScreen}
           options={{
@@ -250,7 +255,7 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
   },
   bar: {
-    flex: 0.1,
+    flex: 0.25,
     flexDirection: "row",
     justifyContent: "space-around",
   },
@@ -262,7 +267,6 @@ const styles = StyleSheet.create({
     flex: 0.2,
     justifyContent: "flex-start",
     width: "80%",
-
     borderBottomColor: "#246A73",
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
@@ -271,7 +275,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   icons: {
-    flex: 0.2,
+    flex: 0.25,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",

@@ -2,30 +2,14 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import {
-  Button,
-  Image,
-  ImageBackground,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
 import Sharing from "./Sharing";
 import SetFavorite from "./SetFavorite";
 
 const Stack = createStackNavigator();
 const Separator = () => <View style={styles.separator} />;
 
-const Recipe = ({
-  navigation,
-  rhash,
-  shareAs,
-  label,
-  imageUrl,
-  onSelectRecipe,
-}) => {
+const Recipe = ({ navigation, rhash, shareAs, label, onSelectRecipe }) => {
   const [share, setShare] = useState("");
 
   const onRecipePress = () => {
@@ -49,12 +33,7 @@ const Recipe = ({
         </View>
         <View style={styles.icons}>
           <Sharing url={shareAs} title={label} />
-          <SetFavorite
-            rhash={rhash}
-            shareAs={shareAs}
-            label={label}
-            imageUrl={imageUrl}
-          />
+          <SetFavorite rhash={rhash} shareAs={shareAs} label={label} />
           <Separator />
         </View>
       </SafeAreaView>
@@ -65,7 +44,6 @@ const Recipe = ({
 Recipe.propTypes = {
   rhash: PropTypes.string,
   label: PropTypes.string,
-  imageUrl: PropTypes.string,
   shareAs: PropTypes.string,
   onSelectRecipe: PropTypes.func.isRequired,
 };

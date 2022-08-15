@@ -11,16 +11,15 @@ import Recipe from "./Recipe";
 import Sharing from "./Sharing";
 import SetFavorite from "./SetFavorite";
 
-const RecipeList = ({ recipes, index, onSelectRecipe }) => {
+const RecipeList = ({ recipes, onSelectRecipe }) => {
   const recipeComponents = recipes.map((recipe) => {
     return (
       <View style={styles.container}>
         <Recipe
           style={styles.item}
-          key={recipe.index}
+          key={recipe.rhash}
           rhash={recipe.rhash}
           label={recipe.label}
-          imageUrl={recipe.imageUrl}
           shareAs={recipe.shareAs}
           onSelectRecipe={onSelectRecipe}
         />
