@@ -20,6 +20,24 @@ const SignUp = () => {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const addUser = async () => {
+    const uid = user.uid;
+    try {
+      const requestBody = {
+        uid: uid,
+        name: name,
+        email: email,
+      };
+      const res = await axios.post(
+        `https://wfd-back-end.herokuapp.com/users`,
+        requestBody
+      );
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const onSignUp = async () => {
     if (email && password) {
       if (confirmPass !== password) {
@@ -39,6 +57,7 @@ const SignUp = () => {
             await updateProfile(user, {
               displayName: name,
             });
+            addUser();
           }
         } catch (error) {
           if (error.code == "auth/email-already-in-use") {
