@@ -2,13 +2,13 @@ import React from "react";
 import { View, Share, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const Sharing = ({ url, title }) => {
-  const nameStr = JSON.stringify(title);
+const Sharing = ({ shareAs, label }) => {
+  const nameStr = JSON.stringify(label);
   const size = 48;
-  const onShare = async () => {
+  async () => {
     try {
       const result = await Share.share({
-        message: nameStr + "\n" + url,
+        message: nameStr + "\n" + shareAs,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -23,13 +23,7 @@ const Sharing = ({ url, title }) => {
       alert(error.message);
     }
   };
-  return (
-    <View style={styles.button}>
-      <TouchableOpacity onPress={onShare} title="Share">
-        <Ionicons name="ios-share" size={size} color="#160F29" />
-      </TouchableOpacity>
-    </View>
-  );
+  return console.log("Item Shared");
 };
 
 const styles = StyleSheet.create({

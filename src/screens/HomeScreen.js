@@ -5,11 +5,11 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 function HomeScreen({ navigation: { navigate } }) {
-  function MyProfileButton() {
+  function MySettingsButton() {
     const navigation = useNavigation();
     const size = 48;
     return (
-      <Pressable onPress={() => navigate("Profile")}>
+      <Pressable onPress={() => navigate("Settings")}>
         <Ionicons name="options" size={size} />
       </Pressable>
     );
@@ -18,7 +18,7 @@ function HomeScreen({ navigation: { navigate } }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.pView}>
-        <MyProfileButton />
+        <MySettingsButton />
       </View>
       <Home />
     </SafeAreaView>

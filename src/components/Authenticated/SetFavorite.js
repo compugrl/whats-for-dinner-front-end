@@ -6,8 +6,6 @@ import { useNavigation } from "@react-navigation/native";
 
 const kBaseUrl = `https://wfd-back-end.herokuapp.com`;
 
-let newFave = "";
-
 function SetFavorite({ rhash, label, shareAs }) {
   const navigation = useNavigation();
   const { currentUser } = useContext(AuthContext);

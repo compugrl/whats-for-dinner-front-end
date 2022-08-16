@@ -8,6 +8,7 @@ import * as WebBrowser from "expo-web-browser";
 import {
   Pressable,
   SafeAreaView,
+  Share,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
@@ -23,16 +24,15 @@ import HomeScreen from "../screens/HomeScreen";
 import SearchScreen from "./SearchScreen";
 import ShoppingListScreen from "../screens/ShoppingListScreen";
 
-import ProfileScreen from "../screens/ProfileScreen";
+import SettingsScreen from "../screens/SettingsScreen";
 import GetIngr from "../components/Authenticated/GetIngr";
 import SetFavorite from "../components/Authenticated/SetFavorite";
 import GetFaves from "../components/Authenticated/GetFaves";
 import SetMenu from "../components/Authenticated/SetMenu";
+import Sharing from "../components/Authenticated/Sharing";
 
 function Navigator() {
   const { currentUser } = useContext(AuthContext);
-  const uid = currentUser.uid;
-
   const navigation = useNavigation();
   const Separator = () => <View style={styles.separator} />;
   const size = 48;
@@ -48,6 +48,17 @@ function Navigator() {
       >
         <Ionicons name="arrow-back" size={size} />
       </Pressable>
+    );
+  }
+
+  function ShareScreen({ route }) {
+    let { shareAs, label } = route.params;
+    return (
+      <SafeAreaView style={styles.container}>
+        <View>
+          <Sharing shareAs={shareAs} label={label} />
+        </View>
+      </SafeAreaView>
     );
   }
 
@@ -149,17 +160,20 @@ function Navigator() {
             if (route.name === "Home") {
               iconName = "ios-home";
             } else if (route.name === "View") {
-              iconName = "open";
+              iconName = "eye";
             } else if (route.name === "Shop") {
               iconName = "cart";
             } else if (route.name === "SetFave") {
               iconName = "heart";
-            } else if (route.name === "Menu") iconName = "add-circle-outline";
+            } else if (route.name === "Menu") {
+              iconName = "add-circle-outline";
+            } else if (route.name === "Share") iconName = "share";
+
             return <Ionicons name={iconName} size={iconSize} color={color} />;
           },
           tabBarActiveTintColor: "#246A73",
           tabBarInactiveTintColor: "#CDC2AE",
-          tabBarShowLabel: true,
+          tabBarShowLabel: false,
           headerShown: false,
         })}
       >
@@ -185,6 +199,20 @@ function Navigator() {
                 {...props}
                 onPress={() =>
                   navigation.navigate("GetIngrScr", { rhash: rhash })
+                }
+              />
+            ),
+          }}
+        />
+        <BtmTab.Screen
+          name="Share"
+          component={ShareScreen}
+          options={{
+            tabBarButton: (props) => (
+              <TouchableOpacity
+                {...props}
+                onPress={async () =>
+                  await Share.share({ message: label + "\n" + shareAs })
                 }
               />
             ),
@@ -261,9 +289,10 @@ function Navigator() {
           <Stack.Screen name="GetIngrScr" component={GetIngrScr} />
           <Stack.Screen name="AddToMenu" component={AddToMenu} />
           <Stack.Screen name="SetFave" component={SetFave} />
+          <Stack.Screen name="Share" component={ShareScreen} />
         </Stack.Group>
         <Stack.Group screenOptions={{ presentation: "modal" }}>
-          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Settings" component={SettingsScreen} />
         </Stack.Group>
       </Stack.Navigator>
     );
