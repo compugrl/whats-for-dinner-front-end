@@ -1,6 +1,4 @@
-import React from "react";
-import { View, Share, StyleSheet, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Share, StyleSheet } from "react-native";
 
 const Sharing = ({ shareAs, label }) => {
   const nameStr = JSON.stringify(label);

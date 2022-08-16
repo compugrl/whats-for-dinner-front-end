@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from "react";
 import {
-  Alert,
   FlatList,
   SafeAreaView,
   Text,
@@ -120,14 +119,6 @@ const Home = () => {
                   <Item
                     item={item}
                     onPress={function () {
-                      // console.log(
-                      //   "Recipe sent from Home: ",
-                      //   item.shareAs,
-                      //   item.label,
-                      //   item.id,
-                      //   item.rhash,
-                      //   item.menuDate
-                      // );
                       navigation.dispatch(
                         StackActions.push("RecipeTabs", {
                           shareAs: item.shareAs,

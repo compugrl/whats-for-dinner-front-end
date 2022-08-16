@@ -1,11 +1,9 @@
-import React, { useReducer, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
 
 const kBaseUrl = `https://wfd-back-end.herokuapp.com/shopping_list`;
-let completed = false;
 
 function SetComplete({ id, uid, completed }) {
   const [toggle, SetToggle] = useState(completed);

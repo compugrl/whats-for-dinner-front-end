@@ -3,7 +3,6 @@ import {
   FlatList,
   RefreshControl,
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,

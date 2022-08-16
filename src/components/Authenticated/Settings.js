@@ -2,7 +2,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { getAuth, signOut, updateEmail, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import {
-  Alert,
   SafeAreaView,
   StyleSheet,
   Text,

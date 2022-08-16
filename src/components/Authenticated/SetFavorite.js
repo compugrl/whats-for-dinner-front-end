@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
@@ -67,6 +67,7 @@ function SetFavorite({ rhash, label, shareAs }) {
       };
       const res3 = await axios.post(`${kBaseUrl}/ur`, requestBody);
       const newId = res3.data.user_recipe.id;
+      setId(newId);
       setFave(newId);
       return res3;
     } catch (err) {

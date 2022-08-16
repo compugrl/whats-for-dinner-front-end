@@ -2,8 +2,6 @@ import React, { useContext, useState } from "react";
 import {
   FlatList,
   SafeAreaView,
-  StatusBar,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -16,6 +14,7 @@ import { styles } from "../../../assets/styles";
 import { useNavigation } from "@react-navigation/native";
 import { StackActions } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
+import { DismissKeyboard } from "../../helperFunctions/DismissKeyboard";
 
 const cuisineItems = require("./data/cuisineItems.json");
 const kBaseUrl = "https://wfd-back-end.herokuapp.com/search";
@@ -119,79 +118,80 @@ const Search = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Collapsible collapsed={isSearchCollapsed}>
-        <View style={styles.addView}>
-          <TextInput
-            style={styles.input}
-            type="TextInput"
-            name="q"
-            placeholder="Search Ingredient"
-            cuisine={q}
-            onChangeText={updateQ}
-          />
-        </View>
-        <View style={styles.filter}>
-          <Text style={styles.title}>Filters (optional)</Text>
-        </View>
-        <View style={styles.item}>
-          <TextInput
-            style={styles.input}
-            type="TextInput"
-            name="excluded"
-            placeholder="Exclude Ingredient"
-            cuisine={excluded}
-            onChangeText={updateExcluded}
-          />
-        </View>
-        <View style={styles.item}>
-          <TextInput
-            style={styles.input}
-            type="Input"
-            name="ingr"
-            placeholder="Max # of Ingredients"
-            keyboardType="numeric"
-            cuisine={ingr}
-            onChangeText={updateIngrLimit}
-          />
-        </View>
-        <View style={styles.item}>
-          <TextInput
-            style={styles.input}
-            type="Input"
-            name="maxTime"
-            placeholder="Max minutes to prepare"
-            keyboardType="numeric"
-            cuisine={maxTime}
-            onChangeText={updateMaxTime}
-          />
-        </View>
-        <View style={styles.item}>
-          <DropDownPicker
-            open={open}
-            value={cuisine}
-            items={items}
-            setOpen={setOpen}
-            setValue={setCuisine}
-            setItems={setItems}
-            multiple={true}
-            mode="BADGE"
-            placeholder="Filter by Cuisine"
-            badgeDotColors={[
-              "#160F29",
-              "#246A73",
-              "#368F8B",
-              "#F3DFC1",
-              "#DDBEA8",
-            ]}
-          />
-        </View>
-        <View>
-          <TouchableOpacity style={styles.button} onPress={buildQuery}>
-            <Text style={styles.title}>Search</Text>
-          </TouchableOpacity>
-        </View>
-      </Collapsible>
-
+      <DismissKeyboard>
+        <Collapsible collapsed={isSearchCollapsed}>
+          <View style={styles.addView}>
+            <TextInput
+              style={styles.input}
+              type="TextInput"
+              name="q"
+              placeholder="Search Ingredient"
+              cuisine={q}
+              onChangeText={updateQ}
+            />
+          </View>
+          <View style={styles.filter}>
+            <Text style={styles.title}>Filters (optional)</Text>
+          </View>
+          <View style={styles.item}>
+            <TextInput
+              style={styles.input}
+              type="TextInput"
+              name="excluded"
+              placeholder="Exclude Ingredient"
+              cuisine={excluded}
+              onChangeText={updateExcluded}
+            />
+          </View>
+          <View style={styles.item}>
+            <TextInput
+              style={styles.input}
+              type="Input"
+              name="ingr"
+              placeholder="Max # of Ingredients"
+              keyboardType="numeric"
+              cuisine={ingr}
+              onChangeText={updateIngrLimit}
+            />
+          </View>
+          <View style={styles.item}>
+            <TextInput
+              style={styles.input}
+              type="Input"
+              name="maxTime"
+              placeholder="Max minutes to prepare"
+              keyboardType="numeric"
+              cuisine={maxTime}
+              onChangeText={updateMaxTime}
+            />
+          </View>
+          <View style={styles.item}>
+            <DropDownPicker
+              open={open}
+              value={cuisine}
+              items={items}
+              setOpen={setOpen}
+              setValue={setCuisine}
+              setItems={setItems}
+              multiple={true}
+              mode="BADGE"
+              placeholder="Filter by Cuisine"
+              badgeDotColors={[
+                "#160F29",
+                "#246A73",
+                "#368F8B",
+                "#F3DFC1",
+                "#DDBEA8",
+              ]}
+            />
+          </View>
+          <View>
+            <TouchableOpacity style={styles.button} onPress={buildQuery}>
+              <Text style={styles.title}>Search</Text>
+            </TouchableOpacity>
+          </View>
+        </Collapsible>
+      </DismissKeyboard>
       <Collapsible collapsed={isResultCollapsed} style={styles.container}>
         <View>
           <TouchableOpacity onPress={showSearch} style={styles.button}>

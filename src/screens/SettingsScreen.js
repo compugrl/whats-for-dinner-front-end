@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, SafeAreaView, View } from "react-native";
+import { Button, View } from "react-native";
 import Settings from "../components/Authenticated/Settings";
 
 function SettingsScreen({ navigation }) {

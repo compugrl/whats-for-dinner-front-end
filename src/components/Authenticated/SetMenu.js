@@ -1,27 +1,16 @@
 import { useEffect, useState, useContext } from "react";
-import {
-  Alert,
-  FlatList,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import axios from "axios";
 import moment from "moment";
 import { styles } from "../../../assets/styles";
 import { useNavigation } from "@react-navigation/native";
-import { StackActions } from "@react-navigation/native";
 import CalendarStrip from "react-native-calendar-strip";
-import { AuthContext } from "../../context/AuthContext";
 
 const kBaseUrl = "https://wfd-back-end.herokuapp.com/ur";
 const markedDatesArray = [];
 
 const SetMenu = ({ id, label }) => {
   console.log("Recipe sent to SetMenu", label);
-  const today = moment().format("MMM DD yyyy");
-  const navigation = useNavigation();
   const [dateVal, setDate] = useState(moment().format("MMM DD yyyy"));
 
   const setMenuItem = async (id, newVal) => {

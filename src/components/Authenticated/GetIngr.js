@@ -1,10 +1,5 @@
-import { Component, useEffect, useState, useContext } from "react";
-import { StyleSheet, StatusBar } from "react-native";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { styles } from "../../../assets/styles";
-import { useNavigation } from "@react-navigation/native";
-import { StackActions } from "@react-navigation/native";
-import { AuthContext } from "../../context/AuthContext";
 import SelectList from "./SelectList";
 
 const kBaseUrl = "https://wfd-back-end.herokuapp.com/search";
@@ -15,9 +10,6 @@ const foodListToJson = (ingredient) => {
 };
 
 function GetIngr({ rhash }) {
-  const navigation = useNavigation();
-  const { currentUser } = useContext(AuthContext);
-  const uid = currentUser.uid;
   const [ingredientData, setIngredientData] = useState([]);
 
   useEffect(() => {

@@ -12,6 +12,13 @@ export const styles = StyleSheet.create({
     color: "#246A73",
     width: 400,
   },
+  alist: {
+    flex: 0.2,
+    justifyContent: "center",
+    alignSelf: "center",
+    backgroundColor: "#246A73",
+    width: "80%",
+  },
   bar: {
     flex: 0.25,
     flexDirection: "row",
@@ -75,6 +82,12 @@ export const styles = StyleSheet.create({
     borderColor: "#160F29",
     borderWidth: 2,
   },
+  flist: {
+    flex: 1,
+    justifyContent: "space-around",
+    alignContent: "space-around",
+    alignItems: "flex-start",
+  },
   icons: {
     marginLeft: 20,
   },
@@ -107,6 +120,12 @@ export const styles = StyleSheet.create({
     width: 400,
     alignSelf: "center",
     justifyContent: "space-evenly",
+  },
+  itemList: {
+    flex: 1,
+    justifyContent: "space-around",
+    alignContent: "flex-start",
+    width: "90%",
   },
   label: {
     textAlignVertical: "top",
@@ -148,6 +167,17 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
     borderBottomColor: "#246A73",
     borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  shopButton: {
+    borderColor: "#160F29",
+    backgroundColor: "whitesmoke",
+    borderWidth: 2,
+    borderRadius: 10,
+    width: "85%",
+    height: 35,
+    alignItems: "center",
+    alignSelf: "center",
+    margin: 20,
   },
   title: {
     textAlign: "center",
