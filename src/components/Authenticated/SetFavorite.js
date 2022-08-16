@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import { styles } from "../../../assets/styles";
 
 const kBaseUrl = `https://wfd-back-end.herokuapp.com`;
 
@@ -97,28 +98,28 @@ function SetFavorite({ rhash, label, shareAs }) {
   };
 
   return (
-    <View style={styles.button}>
-      <Text style={styles.title}>Add {label} to favorites?</Text>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Home")}
-        title="Favorite"
-      >
-        <Text>Cancel</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={onSetFave} title="Favorite">
-        <Text>Confirm</Text>
-      </TouchableOpacity>
+    <View style={styles.item}>
+      <Text style={styles.faveLabel}>Add {label} to favorites?</Text>
+      <View style={styles.item}>
+        <TouchableOpacity
+          style={styles.faveButton}
+          onPress={() => navigation.navigate("Home")}
+          title="Favorite"
+        >
+          <Text style={styles.title}>Cancel</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.item}>
+        <TouchableOpacity
+          style={styles.faveButton}
+          onPress={onSetFave}
+          title="Favorite"
+        >
+          <Text style={styles.title}>Confirm</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    width: 50,
-    height: 50,
-    margin: 5,
-    alignSelf: "auto",
-  },
-});
 
 export default SetFavorite;

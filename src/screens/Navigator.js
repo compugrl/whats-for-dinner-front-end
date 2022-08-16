@@ -11,6 +11,7 @@ import {
   Share,
   StatusBar,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -73,7 +74,32 @@ function Navigator() {
   }
 
   function RecipeScreen() {
-    return null;
+    return (
+      <SafeAreaView style={styles.container}>
+        <View>
+          <Text style={styles.title}>
+            <Ionicons name="eye" size={size} color="#246A73" />
+            To View Recipe
+          </Text>
+          <Text style={styles.title}>
+            <Ionicons name="cart" size={size} color="#246A73" />
+            To Add Ingredients to Your Shopping List
+          </Text>
+          <Text style={styles.title}>
+            <Ionicons name="share" size={size} color="#246A73" />
+            To Share Recipe
+          </Text>
+          <Text style={styles.title}>
+            <Ionicons name="heart" size={size} color="#246A73" />
+            To Add Recipe to Your Favorites
+          </Text>
+          <Text style={styles.title}>
+            <Ionicons name="add-circle-outline" size={size} color="#246A73" />
+            To Add Recipe to Your Menu
+          </Text>
+        </View>
+      </SafeAreaView>
+    );
   }
 
   function GetIngrScr({ route }) {

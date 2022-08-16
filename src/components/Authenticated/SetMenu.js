@@ -18,15 +18,8 @@ import { AuthContext } from "../../context/AuthContext";
 const kBaseUrl = "https://wfd-back-end.herokuapp.com/ur";
 const markedDatesArray = [];
 
-const recipeApiToJson = (recipe) => {
-  const { rhash, label, shareAs, id, menu_date: menuDate } = recipe;
-  return { rhash, label, shareAs, id, menuDate };
-};
-
 const SetMenu = ({ id, label }) => {
-  // temp demo data
-  let menuDate = "Aug 20 2022";
-
+  console.log("Recipe sent to SetMenu", label);
   const today = moment().format("MMM DD yyyy");
   const navigation = useNavigation();
   const [dateVal, setDate] = useState(moment().format("MMM DD yyyy"));

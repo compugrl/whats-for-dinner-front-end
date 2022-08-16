@@ -1,4 +1,3 @@
-import { Ionicons } from "@expo/vector-icons";
 import React, { useState, useEffect, useContext } from "react";
 import {
   Alert,
@@ -12,8 +11,6 @@ import {
 } from "react-native";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
-import { AddToList } from "../../helperFunctions/HandleShopping";
-import ShoppingList from "./ShoppingList";
 
 const SelectList = ({ items }) => {
   const { currentUser } = useContext(AuthContext);
